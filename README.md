@@ -2,6 +2,8 @@
 
 > 一本系统全面、通俗易懂的机器学习与深度学习教程文档
 
+🌐 **在线网站快速进入**：[https://chenerb.github.io/ML-encyclopedia/](https://chenerb.github.io/ML-encyclopedia/)
+
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Status: Active](https://img.shields.io/badge/Status-Active-green.svg)]()
 
