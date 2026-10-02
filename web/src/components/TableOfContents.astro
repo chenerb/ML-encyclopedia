@@ -1,0 +1,34 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+const items = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+
+{
+  items.length > 0 && (
+    <nav class="text-sm">
+      <p class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">本页目录</p>
+      <ul class="space-y-1 border-l border-gray-200 dark:border-white/[0.08]">
+        {items.map((h) => (
+          <li>
+            <a
+              href={`#${h.slug}`}
+              class={`block py-1 pr-2 text-[13px] leading-snug transition-colors ${
+                h.depth === 2
+                  ? 'pl-3 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400'
+                  : 'pl-6 text-gray-400 dark:text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400'
+              }`}
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}

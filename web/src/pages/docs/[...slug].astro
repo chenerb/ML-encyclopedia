@@ -1,0 +1,213 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import GuideSidebar from '../../components/GuideSidebar.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import { CHAPTERS, getChapter, getGroupLabel, type Chapter } from '../../utils/chapters';
+import { buildArticleIndex, articlePath, extractTitle, extractDescription, getPath, estimateReadingTime, type ArticleMeta } from '../../utils/paths';
+
+export async function getStaticPaths() {
+  const articles = buildArticleIndex(await getCollection('docs'));
+  const paths: { params: { slug: string } }[] = [];
+
+  for (const chapter of CHAPTERS) {
+    paths.push({ params: { slug: chapter.slug } });
+  }
+  for (const article of articles) {
+    paths.push({ params: { slug: article.id } });
+  }
+  return paths;
+}
+
+const slugParam = Astro.params.slug;
+const segments = slugParam ? slugParam.split('/') : [];
+const isChapter = segments.length === 1;
+const isArticle = segments.length >= 2;
+
+const articles: ArticleMeta[] = buildArticleIndex(await getCollection('docs'));
+
+// —— 章节落地页数据 ——
+let chapter: Chapter | undefined;
+let chapterArticles: ArticleMeta[] = [];
+
+// —— 文章页数据 ——
+let Content: any;
+let headings: MarkdownHeading[] = [];
+let title = '';
+let description = '';
+let prev: ArticleMeta | undefined;
+let next: ArticleMeta | undefined;
+let readingTime = 0;
+let chapterSlug = '';
+let groupSlug: string | undefined;
+let groupLabel: string | undefined;
+let entryFound = true;
+
+if (isChapter) {
+  chapter = getChapter(segments[0]);
+  if (!chapter) {
+    return Astro.redirect(getPath('/404'));
+  }
+  chapterArticles = articles.filter((a) => a.chapter === segments[0]);
+} else if (isArticle) {
+  const id = segments.join('/');
+  const entry = await getEntry('docs', id);
+  chapterSlug = segments[0];
+  groupSlug = segments.length === 3 ? segments[1] : undefined;
+
+  if (entry) {
+    const rendered = await render(entry);
+    Content = rendered.Content;
+    headings = rendered.headings;
+    title = extractTitle(entry.body ?? '');
+    description = extractDescription(entry.body ?? '') || '机器学习到深度学习演变百科全书文章';
+    readingTime = estimateReadingTime(entry.body ?? '').minutes;
+    const idx = articles.findIndex((a) => a.id === id);
+    prev = idx > 0 ? articles[idx - 1] : undefined;
+    next = idx >= 0 && idx < articles.length - 1 ? articles[idx + 1] : undefined;
+    groupLabel = groupSlug ? getGroupLabel(chapterSlug, groupSlug) : undefined;
+  } else {
+    entryFound = false;
+  }
+}
+---
+
+{isChapter && chapter && (
+  <Layout title={`${chapter.label} - 机器学习到深度学习演变百科全书`} description={chapter.description}>
+    <div class="max-w-5xl mx-auto px-6 py-12">
+      <a href={getPath('/')} class="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-500 transition-colors mb-8 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        返回首页
+      </a>
+
+      <div class="mb-10">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4" style={`background: linear-gradient(135deg, ${chapter.gradient.from}20, ${chapter.gradient.to}20);`}>
+          <span>{chapter.icon}</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">{chapter.label}</h1>
+        <p class="text-gray-500 dark:text-gray-400 max-w-2xl leading-relaxed">{chapter.description}</p>
+        <p class="text-xs text-gray-400 dark:text-gray-500 mt-3">共 {chapterArticles.length} 篇文章 · 预计 {chapterArticles.reduce((s, a) => s + a.readingTime, 0)} 分钟读完</p>
+      </div>
+
+      {chapter.groups ? (
+        chapter.groups.map((group) => {
+          const groupArticles = chapterArticles.filter((a) => a.group === group.slug);
+          if (groupArticles.length === 0) return null;
+          return (
+            <div class="mb-8">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{group.label}</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {groupArticles.map((a) => (
+                  <a href={articlePath(a)} class="group block p-4 rounded-xl bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.06] hover:border-indigo-300 dark:hover:border-indigo-500/40 hover:shadow-md transition-all duration-200 cursor-pointer">
+                    <h3 class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1">{a.title}</h3>
+                    {a.description && <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{a.description}</p>}
+                    <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-2">约 {a.readingTime} 分钟读完</p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          );
+        })
+      ) : (
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {chapterArticles.map((a) => (
+            <a href={articlePath(a)} class="group block p-4 rounded-xl bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.06] hover:border-indigo-300 dark:hover:border-indigo-500/40 hover:shadow-md transition-all duration-200 cursor-pointer">
+              <h3 class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1">{a.title}</h3>
+              {a.description && <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{a.description}</p>}
+              <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-2">约 {a.readingTime} 分钟读完</p>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </Layout>
+)}
+
+{isArticle && !entryFound && (
+  <Layout title="页面未找到 - 机器学习到深度学习演变百科全书">
+    <div class="max-w-xl mx-auto px-6 py-24 text-center">
+      <p class="text-7xl font-bold bg-gradient-to-r from-[#6366f1] to-[#d946ef] bg-clip-text text-transparent mb-4">404</p>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">文章未找到</h1>
+      <a href={getPath('/')} class="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-semibold cursor-pointer">返回首页</a>
+    </div>
+  </Layout>
+)}
+
+{isArticle && Content && (
+  <Layout title={`${title} - 机器学习到深度学习演变百科全书`} description={description}>
+    <div class="max-w-7xl mx-auto px-6 py-8">
+      <div class="flex gap-8">
+        <aside class="hidden lg:block w-72 shrink-0 sticky top-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto sidebar-scroll">
+          <GuideSidebar articles={articles} currentId={segments.join('/')} />
+        </aside>
+
+        <article class="flex-1 min-w-0 max-w-3xl">
+          <nav class="flex items-center gap-1.5 text-sm text-gray-400 dark:text-gray-500 mb-6 flex-wrap">
+            <a href={getPath('/')} class="hover:text-indigo-500 transition-colors">首页</a>
+            <span>/</span>
+            <a href={getPath(`/docs/${chapterSlug}`)} class="hover:text-indigo-500 transition-colors">
+              {getChapter(chapterSlug)?.shortLabel ?? chapterSlug}
+            </a>
+            {groupSlug && (
+              <>
+                <span>/</span>
+                <span class="text-gray-500 dark:text-gray-400">{groupLabel}</span>
+              </>
+            )}
+          </nav>
+
+          {/* 元信息行 */}
+          <div class="flex items-center gap-3 mb-8 pb-6 border-b border-gray-100 dark:border-white/[0.06] flex-wrap">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium text-white" style={`background: linear-gradient(135deg, ${getChapter(chapterSlug)?.gradient.from ?? '#6366f1'}, ${getChapter(chapterSlug)?.gradient.to ?? '#8b5cf6'});`}>
+              {getChapter(chapterSlug)?.icon} {getChapter(chapterSlug)?.label ?? chapterSlug}
+            </span>
+            <span class="inline-flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              约 {readingTime} 分钟读完
+            </span>
+          </div>
+
+          {/* 移动端目录 */}
+          <details class="xl:hidden mb-8 rounded-xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.03] p-4">
+            <summary class="text-sm font-semibold text-gray-900 dark:text-white cursor-pointer select-none">本页目录</summary>
+            <div class="mt-3">
+              <TableOfContents headings={headings} />
+            </div>
+          </details>
+
+          <div class="prose prose-gray dark:prose-invert max-w-none prose-headings:scroll-mt-24">
+            <Content />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-12 pt-8 border-t border-gray-200 dark:border-white/[0.08]">
+            {prev ? (
+              <a href={articlePath(prev)} class="group block p-4 rounded-xl bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.06] hover:border-indigo-300 dark:hover:border-indigo-500/40 transition-all cursor-pointer">
+                <p class="text-xs text-gray-400 dark:text-gray-500 mb-1">← 上一篇</p>
+                <p class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{prev.title}</p>
+              </a>
+            ) : (
+              <div />
+            )}
+            {next ? (
+              <a href={articlePath(next)} class="group block p-4 rounded-xl bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.06] hover:border-indigo-300 dark:hover:border-indigo-500/40 transition-all cursor-pointer text-right">
+                <p class="text-xs text-gray-400 dark:text-gray-500 mb-1">下一篇 →</p>
+                <p class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{next.title}</p>
+              </a>
+            ) : (
+              <div />
+            )}
+          </div>
+        </article>
+
+        <aside class="hidden xl:block w-56 shrink-0 sticky top-20 self-start">
+          <TableOfContents headings={headings} />
+        </aside>
+      </div>
+    </div>
+  </Layout>
+)}

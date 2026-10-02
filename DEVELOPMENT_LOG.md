@@ -6,7 +6,53 @@
 
 ---
 
-## v0.4.0 — 2026-10-03（当前版本）
+## v0.5.1 — 2026-10-03（当前版本）
+
+### 🎯 本次主题：前端设计优化 + GitHub Pages 自动部署
+
+### ✨ 新增内容
+- **GitHub Pages 自动部署**（`.github/workflows/deploy.yml`）：官方 `actions/deploy-pages` 方案，推送 main 即自动构建发布，任何设备均可访问 `https://chenerb.github.io/ML-encyclopedia/`
+
+### 📝 修改内容
+- **文章页**：新增元信息行（章节渐变色徽章 + 预计阅读时长）；新增移动端可折叠"本页目录"（移动端也能快速跳转）
+- **章节落地页**：新增"共 N 篇文章 · 预计 M 分钟读完"统计；文章卡片显示阅读时长
+- **首页**：新增"不只是知识仓库"教学特色板块（费曼学习法 / 寓言故事教学 / 学完即测 / 配套代码示例 4 卡片）；学习路径 3 张卡片改为可点击跳转对应章节
+- **页脚**：新增完整目录、测试卷专区、术语表、贡献指南链接
+- **工具函数**：`paths.ts` 新增 `estimateReadingTime`（按中文字符 350/min + 英文单词 220/min 估算）
+- `web/README.md`：部署说明更新为官方 Actions 工作流
+
+---
+
+## v0.5.0 — 2026-10-03
+
+### 🎯 本次主题：搭建前端站点（Astro + Tailwind）
+
+参考 [AIInfraGuide](https://github.com/caomaolufei/AIInfraGuide) 的界面设计，为全书搭建了可在线阅读的静态站点。
+
+### ✨ 新增内容
+
+**前端站点（`web/`）**：
+- 技术栈：Astro 4 + Tailwind CSS + @tailwindcss/typography，静态生成 78 个页面
+- 自动加载 `docs/` 全文：通过 Content Layer glob loader 读取，标题从 H1 自动提取，**无需为文章添加 frontmatter**
+- 首页（`src/pages/index.astro`）：Hero + 九大章节卡片 + 推荐学习路径 + 统计
+- 动态路由（`src/pages/docs/[...slug].astro`）：章节落地页（第五章按子分组）+ 文章页
+- 组件（`src/components/`）：
+  - `GuideSidebar`：章节导航侧边栏（当前文章高亮、折叠）
+  - `TableOfContents`：右侧本页目录
+  - `CategoryCard`：章节卡片（渐变主题色）
+  - `Search`：客户端全文搜索（`Ctrl/Cmd+K` 唤起）
+  - `ThemeToggle`：深色模式切换
+  - `CopyButton`：代码块复制按钮
+- 功能：KaTeX 数学公式、Mermaid 图表、阅读进度条、回到顶部、上一篇/下一篇、移动端抽屉菜单
+- 搜索索引端点（`src/pages/search-index.json.ts`）
+- 部署说明（`web/README.md`）：含 GitHub Pages 工作流示例
+
+### 📝 修改内容
+- `.gitignore`：新增 `web/` 构建产物忽略规则（`web/.gitignore`）
+
+---
+
+## v0.4.0 — 2026-10-03
 
 ### 🎯 本次主题：补齐全套测试卷 + 术语表 + 代码示例
 
@@ -179,6 +225,8 @@ AlexNet、VGGNet、GoogLeNet、ResNet、Transformer(2017)、BERT、GPT系列、�
 ### 其他
 - [x] 术语表（`glossary/`：英汉对照 + 术语索引）
 - [x] 代码示例（`examples/`：4 个 Python 示例 + README）
+- [x] 前端站点（`web/`：Astro + Tailwind，78 页面，含搜索/深色模式/TOC）
+- [x] GitHub Pages 自动部署（`.github/workflows/deploy.yml`，推送即发布）
 - [ ] 图片资源（`images/`：原理图 + 截图，可选）
 - [ ] Jupyter Notebook 示例（可选）
 

@@ -1,0 +1,213 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: rgba(0, 122, 255, 0.3);
+  }
+
+  .sidebar-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+  .sidebar-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+  }
+  .dark .sidebar-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Navbar scroll state */
+#site-header {
+  transition: box-shadow 0.3s ease;
+}
+#site-header.is-scrolled {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+.dark #site-header.is-scrolled {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+@media (prefers-reduced-motion: reduce) {
+  #site-header {
+    transition: none !important;
+  }
+}
+
+/* ── Code Block — Mac Window Style ── */
+.prose pre.astro-code {
+  background-color: #f6f8fa !important;
+}
+html.dark .prose pre.astro-code {
+  background-color: var(--shiki-dark-bg) !important;
+}
+html.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+.prose pre.astro-code {
+  position: relative;
+  margin: 1.75em 0;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid #e0e0e8;
+  border-left: 3px solid #6366f1;
+  overflow: hidden;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+.dark .prose pre.astro-code {
+  border-color: #2a2a3e;
+  border-left-color: #818cf8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.prose pre.astro-code::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  margin: 14px 0 0 16px;
+  border-radius: 50%;
+  background: #fc625d;
+  box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
+}
+
+.prose pre.astro-code::after {
+  content: attr(data-language);
+  position: absolute;
+  top: 11px;
+  right: 14px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.2);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  user-select: none;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.dark .prose pre.astro-code::after {
+  color: rgba(255, 255, 255, 0.25);
+}
+.prose pre.astro-code[data-language='plaintext']::after {
+  display: none;
+}
+
+.prose pre.astro-code > code {
+  display: block;
+  padding: 12px 1rem 1.25rem 0;
+  overflow-x: auto;
+  background: transparent !important;
+  font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.prose pre.astro-code > code::-webkit-scrollbar {
+  height: 6px;
+}
+.prose pre.astro-code > code::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.12);
+  border-radius: 3px;
+}
+.dark .prose pre.astro-code > code::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Prevent prose inline-code styles leaking into code blocks */
+.prose pre.astro-code code {
+  color: inherit;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-weight: normal;
+  font-size: inherit;
+}
+
+/* ── Copy Button ── */
+.prose pre.astro-code .copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s ease;
+  z-index: 2;
+  line-height: 1.5;
+  backdrop-filter: blur(4px);
+}
+.dark .prose pre.astro-code .copy-btn {
+  color: #8b949e;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.prose pre.astro-code:hover .copy-btn {
+  opacity: 1;
+}
+.prose pre.astro-code:hover::after {
+  opacity: 0;
+}
+.prose pre.astro-code .copy-btn:hover {
+  color: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.08);
+}
+.dark .prose pre.astro-code .copy-btn:hover {
+  color: #e6edf3;
+  background: rgba(255, 255, 255, 0.12);
+}
+.prose pre.astro-code .copy-btn.copied {
+  color: #059669;
+  border-color: rgba(5, 150, 105, 0.3);
+}
+
+/* ── Mermaid ── */
+.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5em 0;
+}
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Prose heading anchors ── */
+.prose h2,
+.prose h3,
+.prose h4 {
+  scroll-margin-top: 6rem;
+}

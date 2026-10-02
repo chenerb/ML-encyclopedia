@@ -1,0 +1,105 @@
+---
+// 全文搜索（标题 + 描述）客户端搜索组件
+---
+
+<div
+  id="search-modal"
+  class="fixed inset-0 z-[100] hidden items-start justify-center pt-[15vh] px-4"
+  aria-modal="true"
+  role="dialog"
+>
+  <div id="search-overlay" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+  <div class="relative w-full max-w-xl bg-white dark:bg-[#141414] rounded-2xl shadow-2xl border border-gray-200 dark:border-white/[0.1] overflow-hidden">
+    <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-100 dark:border-white/[0.06]">
+      <svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input
+        id="search-input"
+        type="text"
+        placeholder="搜索文章标题…"
+        class="flex-1 bg-transparent outline-none text-base text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+        autocomplete="off"
+      />
+      <kbd class="hidden sm:inline-flex items-center text-xs text-gray-400 dark:text-gray-500 border border-gray-200 dark:border-white/[0.1] rounded px-1.5 py-0.5">ESC</kbd>
+    </div>
+    <div id="search-results" class="max-h-[50vh] overflow-y-auto sidebar-scroll py-2"></div>
+  </div>
+</div>
+
+<script>
+  let index: { title: string; description: string; chapter: string; href: string }[] | null = null;
+  let loaded = false;
+
+  async function loadIndex() {
+    if (loaded) return;
+    try {
+      const res = await fetch(import.meta.env.BASE_URL + 'search-index.json');
+      index = await res.json();
+      loaded = true;
+    } catch {
+      index = [];
+      loaded = true;
+    }
+  }
+
+  const modal = document.getElementById('search-modal');
+  const overlay = document.getElementById('search-overlay');
+  const input = document.getElementById('search-input') as HTMLInputElement;
+  const results = document.getElementById('search-results');
+
+  function open() {
+    modal?.classList.remove('hidden');
+    modal?.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => input?.focus(), 50);
+    loadIndex().then(render);
+  }
+
+  function close() {
+    modal?.classList.add('hidden');
+    modal?.classList.remove('flex');
+    document.body.style.overflow = '';
+    if (input) input.value = '';
+    if (results) results.innerHTML = '';
+  }
+
+  function render() {
+    if (!results || !index) return;
+    const q = (input?.value ?? '').trim().toLowerCase();
+    if (!q) {
+      results.innerHTML = '';
+      return;
+    }
+    const hits = index
+      .filter((item) => item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q))
+      .slice(0, 20);
+    if (hits.length === 0) {
+      results.innerHTML = '<p class="px-4 py-6 text-sm text-gray-400 dark:text-gray-500 text-center">没有找到相关内容</p>';
+      return;
+    }
+    results.innerHTML = hits
+      .map(
+        (item) => `
+        <a href="${item.href}" class="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-colors">
+          <div class="flex items-center gap-2 mb-0.5">
+            <span class="text-xs text-gray-400 dark:text-gray-500 shrink-0">${item.chapter}</span>
+          </div>
+          <p class="text-sm font-medium text-gray-900 dark:text-white">${item.title}</p>
+          ${item.description ? `<p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-1 mt-0.5">${item.description}</p>` : ''}
+        </a>`,
+      )
+      .join('');
+  }
+
+  input?.addEventListener('input', render);
+  overlay?.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') close();
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      modal?.classList.contains('hidden') ? open() : close();
+    }
+  });
+  document.addEventListener('open-search', open);
+</script>

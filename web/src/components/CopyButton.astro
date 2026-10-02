@@ -1,0 +1,34 @@
+---
+// 代码块复制按钮：为每个 pre.astro-code 注入复制按钮
+---
+
+<script>
+  function addCopyButtons() {
+    document.querySelectorAll('pre.astro-code').forEach((pre) => {
+      if (pre.querySelector('.copy-btn')) return;
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = '复制';
+      btn.addEventListener('click', async () => {
+        const code = pre.querySelector('code');
+        const text = code?.textContent ?? '';
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = '已复制 ✓';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = '复制';
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch {
+          btn.textContent = '复制失败';
+          setTimeout(() => (btn.textContent = '复制'), 2000);
+        }
+      });
+      pre.appendChild(btn);
+    });
+  }
+
+  addCopyButtons();
+  document.addEventListener('astro:after-swap', addCopyButtons);
+</script>
