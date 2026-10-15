@@ -38,7 +38,12 @@ jobs:
 
       - name: Build with Astro
         working-directory: web
-        run: npm run build
+        run: npm test && npm run build
+
+      - name: Verify content and generated links
+        run: |
+          python3 scripts/check_content.py
+          python3 scripts/check_site.py
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
