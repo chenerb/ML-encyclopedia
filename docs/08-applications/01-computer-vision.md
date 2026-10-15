@@ -129,3 +129,8 @@
 
 - [上一篇：伦理与责任](../07-practical-guide/07-ethics-responsibility.md)
 - [下一篇：自然语言处理](02-natural-language-processing.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/08-applications/01-computer-vision-题目.md)
+- [节末小测：答案解析](../../exams/08-applications/01-computer-vision-答案解析.md)

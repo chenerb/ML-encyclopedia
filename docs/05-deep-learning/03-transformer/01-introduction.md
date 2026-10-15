@@ -129,7 +129,7 @@ Transformer 像"圆桌会议"：所有人**同时坐下**，每个人都能**直
 **进一步学习方向：**
 - [注意力机制](02-attention-mechanism.md)：Transformer 的灵魂
 - [编码器-解码器](03-encoder-decoder.md)：Transformer 的结构
-- [Transformer (2017)](../06-milestone-models/05-transformer.md)：里程碑详解
+- [Transformer (2017)](../../06-milestone-models/05-transformer.md)：里程碑详解
 
 ---
 
@@ -142,3 +142,8 @@ Transformer 像"圆桌会议"：所有人**同时坐下**，每个人都能**直
 
 - [上一篇：RNN应用场景](../02-rnn/04-applications.md)
 - [下一篇：注意力机制](02-attention-mechanism.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/03-transformer-01-introduction-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/03-transformer-01-introduction-答案解析.md)

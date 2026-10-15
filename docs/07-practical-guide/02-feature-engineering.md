@@ -113,3 +113,8 @@
 
 - [上一篇：数据预处理](01-data-preprocessing.md)
 - [下一篇：模型选择](03-model-selection.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/07-practical-guide/02-feature-engineering-题目.md)
+- [节末小测：答案解析](../../exams/07-practical-guide/02-feature-engineering-答案解析.md)

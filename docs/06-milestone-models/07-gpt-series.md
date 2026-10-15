@@ -129,3 +129,8 @@ ChatGPT 的关键技术是**基于人类反馈的强化学习（RLHF）**：让�
 
 - [上一篇：BERT](06-bert.md)
 - [下一篇：扩散模型](08-diffusion-models.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/06-milestone-models/07-gpt-series-题目.md)
+- [节末小测：答案解析](../../exams/06-milestone-models/07-gpt-series-答案解析.md)

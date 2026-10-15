@@ -130,3 +130,8 @@ AI 犯错（自动驾驶事故、误诊），谁来担责？
 
 - [上一篇：模型部署](06-deployment.md)
 - [下一篇：计算机视觉](../08-applications/01-computer-vision.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/07-practical-guide/07-ethics-responsibility-题目.md)
+- [节末小测：答案解析](../../exams/07-practical-guide/07-ethics-responsibility-答案解析.md)

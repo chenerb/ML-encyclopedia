@@ -1,0 +1,125 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import { getChapter } from '../../utils/chapters';
+import { extractTitle, getPath } from '../../utils/paths';
+import { examPath, examToArticleId } from '../../utils/content-links.mjs';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('exams');
+  return entries
+    .filter((entry) => /^0[1-9]-[^/]+\/.+-(题目|答案解析)$/.test(entry.id.replace(/\.md$/, '')))
+    .map((entry) => ({ params: { slug: entry.id.replace(/\.md$/, '') } }));
+}
+
+const id = Astro.params.slug ?? '';
+const entry = await getEntry('exams', id);
+if (!entry) return Astro.redirect(getPath('/404/'));
+
+const { Content, headings } = await render(entry);
+const chapterSlug = id.split('/')[0];
+const chapter = getChapter(chapterSlug);
+const isAnswer = id.endsWith('-答案解析');
+const stem = id.replace(/-(题目|答案解析)$/, '');
+const questionId = `${stem}-题目`;
+const answerId = `${stem}-答案解析`;
+const counterpart = await getEntry('exams', isAnswer ? questionId : answerId);
+const articleId = examToArticleId(id);
+const article = articleId ? await getEntry('docs', articleId) : undefined;
+const title = extractTitle(entry.body ?? '');
+const base = import.meta.env.BASE_URL;
+const indexUrl = `${getPath('/exams/')}#${chapterSlug}`;
+const lessonUrl = article ? getPath(`/docs/${articleId}/`) : getPath(`/docs/${chapterSlug}/`);
+const lessonLabel = article ? '回到对应正文' : '回到本章正文';
+---
+
+<Layout title={`${title} - 配套练习`} description={`${chapter?.shortLabel ?? '机器学习'}配套${isAnswer ? '答案解析' : '练习题'}。先独立作答，再对照解析，回到正文查漏补缺。`}>
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    <nav aria-label="面包屑" class="flex flex-wrap items-center gap-2 text-sm text-gray-400 dark:text-gray-500 mb-7">
+      <a href={getPath('/')} class="hover:text-indigo-500 transition-colors">首页</a>
+      <span aria-hidden="true">/</span>
+      <a href={getPath('/exams/')} class="hover:text-indigo-500 transition-colors">配套练习</a>
+      <span aria-hidden="true">/</span>
+      <a href={indexUrl} class="hover:text-indigo-500 transition-colors">{chapter?.shortLabel ?? chapterSlug}</a>
+      <span aria-hidden="true">/</span>
+      <span class="text-gray-600 dark:text-gray-300">{isAnswer ? '答案解析' : '题目'}</span>
+    </nav>
+
+    <div class="flex gap-10">
+      <article class="flex-1 min-w-0 max-w-3xl mx-auto">
+        <div class="mb-8 rounded-2xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.03] p-5 sm:p-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+            <span class="inline-flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <span aria-hidden="true">{chapter?.icon ?? '📝'}</span>
+              {chapter?.label ?? '配套练习'}
+            </span>
+            <a href={indexUrl} class="text-xs text-gray-500 dark:text-gray-400 hover:text-indigo-500 transition-colors">← 返回试卷目录</a>
+          </div>
+
+          <nav aria-label="试卷版本" class="flex flex-wrap gap-2">
+            <a
+              href={examPath(questionId, base)}
+              aria-current={!isAnswer ? 'page' : undefined}
+              class:list={[
+                'inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-colors',
+                !isAnswer ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900' : 'bg-gray-100 dark:bg-white/[0.06] text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10',
+              ]}
+            >
+              题目
+            </a>
+            {(isAnswer || counterpart) && (
+              <a
+                href={examPath(answerId, base)}
+                aria-current={isAnswer ? 'page' : undefined}
+                class:list={[
+                  'inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-colors',
+                  isAnswer ? 'bg-indigo-600 text-white' : 'border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:border-indigo-300 hover:text-indigo-600 dark:hover:text-indigo-400',
+                ]}
+              >
+                {isAnswer ? '答案解析' : '完成后查看答案解析 →'}
+              </a>
+            )}
+          </nav>
+
+          <p class="mt-4 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+            {isAnswer
+              ? '先核对答案，再读懂推导和易错点；遇到解释不清的概念，回正文用自己的话重新讲一遍。'
+              : '先独立完成本卷，再点击答案解析核对。把不确定的题目记下来，复习时优先回看对应知识点。'}
+          </p>
+          <a href={lessonUrl} class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline">
+            {lessonLabel} →
+          </a>
+        </div>
+
+        {headings.length > 0 && (
+          <details class="xl:hidden mb-8 rounded-xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.03] p-4">
+            <summary class="text-sm font-semibold text-gray-900 dark:text-white cursor-pointer select-none">本页目录</summary>
+            <div class="mt-3"><TableOfContents headings={headings} /></div>
+          </details>
+        )}
+
+        <div class="prose prose-gray dark:prose-invert max-w-none prose-headings:scroll-mt-24">
+          <Content />
+        </div>
+
+        <div class="mt-12 flex flex-wrap items-center gap-3 border-t border-gray-200 dark:border-white/[0.08] pt-6">
+          {counterpart && (
+            <a href={examPath(isAnswer ? questionId : answerId, base)} class="inline-flex items-center rounded-xl bg-gray-900 dark:bg-white px-5 py-3 text-sm font-semibold text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors">
+              {isAnswer ? '返回题目，再试一次' : '完成作答，查看解析 →'}
+            </a>
+          )}
+          <a href={lessonUrl} class="rounded-xl border border-gray-200 dark:border-white/10 px-5 py-3 text-sm font-medium text-gray-600 dark:text-gray-300 hover:border-indigo-300 transition-colors">{lessonLabel}</a>
+          <a href={indexUrl} class="px-2 py-3 text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-500 transition-colors">试卷目录</a>
+        </div>
+      </article>
+
+      {headings.length > 0 && (
+        <aside aria-label="本页目录" class="hidden xl:block w-56 shrink-0 sticky top-24 self-start max-h-[calc(100vh-8rem)] overflow-y-auto sidebar-scroll">
+          <h2 class="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">本页目录</h2>
+          <TableOfContents headings={headings} />
+        </aside>
+      )}
+    </div>
+  </div>
+</Layout>

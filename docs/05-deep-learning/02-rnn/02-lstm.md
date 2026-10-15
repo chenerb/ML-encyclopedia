@@ -163,3 +163,8 @@ h_t = o_t ⊙ tanh(C_t)
 
 - [上一篇：RNN简介](01-introduction.md)
 - [下一篇：GRU网络](03-gru.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/02-rnn-02-lstm-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/02-rnn-02-lstm-答案解析.md)

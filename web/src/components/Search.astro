@@ -1,104 +1,245 @@
 ---
-// 全文搜索（标题 + 描述）客户端搜索组件
+// 按需加载全文索引；原生 dialog 提供焦点约束与 Escape 关闭。
 ---
 
-<div
+<dialog
   id="search-modal"
-  class="fixed inset-0 z-[100] hidden items-start justify-center pt-[15vh] px-4"
-  aria-modal="true"
-  role="dialog"
+  aria-labelledby="search-title"
+  class="search-dialog bg-white dark:bg-[#141414] text-gray-900 dark:text-white border border-gray-200 dark:border-white/[0.1] rounded-2xl shadow-2xl"
 >
-  <div id="search-overlay" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
-  <div class="relative w-full max-w-xl bg-white dark:bg-[#141414] rounded-2xl shadow-2xl border border-gray-200 dark:border-white/[0.1] overflow-hidden">
-    <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-100 dark:border-white/[0.06]">
-      <svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  <h2 id="search-title" class="sr-only">搜索百科全文</h2>
+  <div class="flex items-center gap-3 px-4 py-4 border-b border-gray-100 dark:border-white/[0.06]">
+    <svg aria-hidden="true" class="w-5 h-5 text-purple-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+    <label for="search-input" class="sr-only">输入标题或正文关键词</label>
+    <input
+      id="search-input"
+      type="search"
+      placeholder="搜索标题或正文关键词…"
+      aria-controls="search-results"
+      aria-describedby="search-help"
+      class="search-input flex-1 min-w-0 bg-transparent text-base text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button id="search-close" type="button" aria-label="关闭搜索" class="search-control shrink-0 rounded-lg p-2 text-gray-500 hover:bg-purple-50 hover:text-purple-700 dark:text-gray-400 dark:hover:bg-purple-500/10 dark:hover:text-purple-300">
+      <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+        <path stroke-linecap="round" d="m6 6 12 12M18 6 6 18" />
       </svg>
-      <input
-        id="search-input"
-        type="text"
-        placeholder="搜索文章标题…"
-        class="flex-1 bg-transparent outline-none text-base text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
-        autocomplete="off"
-      />
-      <kbd class="hidden sm:inline-flex items-center text-xs text-gray-400 dark:text-gray-500 border border-gray-200 dark:border-white/[0.1] rounded px-1.5 py-0.5">ESC</kbd>
-    </div>
-    <div id="search-results" class="max-h-[50vh] overflow-y-auto sidebar-scroll py-2"></div>
+    </button>
   </div>
-</div>
+  <div class="px-4 pt-3 pb-2">
+    <p id="search-status" role="status" aria-live="polite" class="text-xs leading-relaxed text-gray-500 dark:text-gray-400"></p>
+    <button id="search-retry" type="button" hidden class="search-control mt-3 rounded-lg border border-purple-200 px-3 py-2 text-sm font-medium text-purple-700 hover:bg-purple-50 dark:border-purple-500/30 dark:text-purple-300 dark:hover:bg-purple-500/10">重新加载索引</button>
+  </div>
+  <ul id="search-results" aria-label="搜索结果" class="search-results sidebar-scroll m-0 list-none overflow-y-auto px-2 pb-2"></ul>
+  <div id="search-help" class="flex flex-wrap items-center justify-between gap-2 px-4 py-3 text-[11px] text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-white/[0.06]">
+    <span>支持正文搜索 · 多个关键词用空格分隔</span>
+    <span class="hidden sm:inline">↑ ↓ 选择 · Enter 打开 · Esc 关闭</span>
+  </div>
+</dialog>
+
+<style>
+  .search-dialog {
+    position: fixed;
+    inset: min(15vh, 7rem) 0 auto;
+    margin: 0 auto;
+    padding: 0;
+    width: min(calc(100% - 2rem), 42rem);
+    max-width: none;
+    max-height: calc(100dvh - min(15vh, 7rem) - 1rem);
+    overflow: hidden;
+  }
+  .search-dialog[open] { display: flex; flex-direction: column; }
+  .search-dialog::backdrop { background: rgb(0 0 0 / 45%); backdrop-filter: blur(5px); }
+  .search-results { min-height: 0; max-height: 48dvh; overscroll-behavior: contain; }
+  .search-input:focus-visible { outline: 2px solid #a855f7; outline-offset: 5px; border-radius: 2px; }
+  .search-control:focus-visible { outline: 2px solid #a855f7; outline-offset: 3px; }
+  #search-retry[hidden] { display: none; }
+  .search-results :global(.search-hit) {
+    display: block;
+    padding: 0.8rem;
+    border: 1px solid transparent;
+    border-radius: 0.75rem;
+    transition: background-color 120ms, border-color 120ms;
+  }
+  .search-results :global(.search-hit:hover), .search-results :global(.search-hit.is-selected) {
+    background: rgb(168 85 247 / 7%);
+    border-color: rgb(168 85 247 / 18%);
+  }
+  .search-results :global(.search-hit:focus-visible) { outline: 2px solid #a855f7; outline-offset: -2px; }
+  @media (max-width: 639px) {
+    .search-dialog { inset-block-start: 1rem; max-height: calc(100dvh - 2rem); }
+    .search-results { max-height: 60dvh; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .search-results :global(.search-hit) { transition: none; }
+  }
+</style>
 
 <script>
-  let index: { title: string; description: string; chapter: string; href: string }[] | null = null;
-  let loaded = false;
+  import { searchArticles } from '../utils/search.mjs';
 
-  async function loadIndex() {
-    if (loaded) return;
-    try {
-      const res = await fetch(import.meta.env.BASE_URL + 'search-index.json');
-      index = await res.json();
-      loaded = true;
-    } catch {
-      index = [];
-      loaded = true;
-    }
-  }
+  type Article = Parameters<typeof searchArticles>[0][number];
+  let index: Article[] | null = null;
+  let pending: Promise<void> | null = null;
+  let state: 'idle' | 'loading' | 'ready' | 'error' = 'idle';
+  let returnFocus: HTMLElement | null = null;
+  let previousOverflow = '';
+  let composing = false;
+  let hitLinks: HTMLAnchorElement[] = [];
+  let selected = -1;
 
-  const modal = document.getElementById('search-modal');
-  const overlay = document.getElementById('search-overlay');
+  const modal = document.getElementById('search-modal') as HTMLDialogElement;
   const input = document.getElementById('search-input') as HTMLInputElement;
-  const results = document.getElementById('search-results');
+  const results = document.getElementById('search-results') as HTMLUListElement;
+  const status = document.getElementById('search-status') as HTMLParagraphElement;
+  const retry = document.getElementById('search-retry') as HTMLButtonElement;
+  const closeButton = document.getElementById('search-close') as HTMLButtonElement;
+  const indexUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/search-index.json`;
 
-  function open() {
-    modal?.classList.remove('hidden');
-    modal?.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => input?.focus(), 50);
-    loadIndex().then(render);
+  function isArticle(value: unknown): value is Article {
+    return typeof value === 'object' && value !== null &&
+      ['title', 'description', 'content', 'chapter', 'href'].every((key) => typeof (value as Record<string, unknown>)[key] === 'string');
   }
 
-  function close() {
-    modal?.classList.add('hidden');
-    modal?.classList.remove('flex');
-    document.body.style.overflow = '';
-    if (input) input.value = '';
-    if (results) results.innerHTML = '';
+  function loadIndex(): Promise<void> {
+    if (index !== null) return Promise.resolve();
+    if (pending) return pending;
+    state = 'loading';
+    render();
+    pending = (async () => {
+      try {
+        const response = await fetch(indexUrl);
+        if (!response.ok) throw new Error(`Search index: ${response.status}`);
+        const data: unknown = await response.json();
+        if (!Array.isArray(data) || !data.every(isArticle)) throw new Error('Invalid search index');
+        index = data;
+        state = 'ready';
+      } catch {
+        state = 'error';
+      } finally {
+        pending = null;
+        if (modal.open) render();
+      }
+    })();
+    return pending;
+  }
+
+  function open(event?: Event) {
+    if (modal.open) { input.focus(); return; }
+    const trigger = event instanceof CustomEvent ? event.detail?.trigger : null;
+    returnFocus = trigger instanceof HTMLElement ? trigger : document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    previousOverflow = document.body.style.overflow;
+    modal.showModal();
+    document.body.style.overflow = 'hidden';
+    input.focus();
+    render();
+    void loadIndex();
+  }
+
+  function close() { if (modal.open) modal.close(); }
+
+  function selectResult(position: number) {
+    selected = position;
+    hitLinks.forEach((link, i) => link.classList.toggle('is-selected', i === selected));
+    const link = hitLinks[selected];
+    if (link) {
+      link.focus({ preventScroll: true });
+      link.scrollIntoView({ block: 'nearest' });
+    }
   }
 
   function render() {
-    if (!results || !index) return;
-    const q = (input?.value ?? '').trim().toLowerCase();
-    if (!q) {
-      results.innerHTML = '';
+    results.replaceChildren();
+    hitLinks = [];
+    selected = -1;
+    retry.hidden = state !== 'error';
+    results.setAttribute('aria-busy', String(state === 'loading'));
+    if (state === 'loading') { status.textContent = '正在加载全文索引…'; return; }
+    if (state === 'error') { status.textContent = '搜索索引暂时无法加载，请检查网络后重试。'; return; }
+    const query = input.value.trim();
+    if (!query || !index) {
+      status.textContent = index ? `在 ${index.length} 篇文章中搜索标题、简介与正文。` : '输入关键词，查找相关知识。';
       return;
     }
-    const hits = index
-      .filter((item) => item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q))
-      .slice(0, 20);
-    if (hits.length === 0) {
-      results.innerHTML = '<p class="px-4 py-6 text-sm text-gray-400 dark:text-gray-500 text-center">没有找到相关内容</p>';
-      return;
+    const hits = searchArticles(index, query);
+    status.textContent = hits.length ? `显示 ${hits.length} 条相关结果，标题匹配优先。` : '没有找到相关内容，试试其他关键词。';
+    for (const item of hits) {
+      // Index content is text, never markup. Links are restricted to this site.
+      const destination = new URL(item.href, window.location.href);
+      if (destination.origin !== window.location.origin || !['http:', 'https:'].includes(destination.protocol)) continue;
+      const row = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = destination.href;
+      link.className = 'search-hit';
+      const chapter = document.createElement('p');
+      chapter.className = 'text-[11px] text-purple-600 dark:text-purple-400 mb-1';
+      chapter.textContent = item.chapter;
+      const title = document.createElement('p');
+      title.className = 'text-sm font-medium text-gray-900 dark:text-white';
+      title.textContent = item.title;
+      const snippet = document.createElement('p');
+      snippet.className = 'text-xs leading-relaxed text-gray-500 dark:text-gray-400 mt-1 line-clamp-2';
+      snippet.textContent = item.snippet;
+      link.append(chapter, title, snippet);
+      row.append(link);
+      results.append(row);
+      hitLinks.push(link);
     }
-    results.innerHTML = hits
-      .map(
-        (item) => `
-        <a href="${item.href}" class="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-colors">
-          <div class="flex items-center gap-2 mb-0.5">
-            <span class="text-xs text-gray-400 dark:text-gray-500 shrink-0">${item.chapter}</span>
-          </div>
-          <p class="text-sm font-medium text-gray-900 dark:text-white">${item.title}</p>
-          ${item.description ? `<p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-1 mt-0.5">${item.description}</p>` : ''}
-        </a>`,
-      )
-      .join('');
   }
 
-  input?.addEventListener('input', render);
-  overlay?.addEventListener('click', close);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') close();
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-      e.preventDefault();
-      modal?.classList.contains('hidden') ? open() : close();
+  input.addEventListener('input', () => { if (!composing) render(); });
+  input.addEventListener('compositionstart', () => { composing = true; });
+  input.addEventListener('compositionend', () => { composing = false; render(); });
+  closeButton.addEventListener('click', close);
+  retry.addEventListener('click', () => { input.focus(); void loadIndex(); });
+  modal.addEventListener('cancel', (event) => { if (composing) event.preventDefault(); });
+  modal.addEventListener('close', () => {
+    document.body.style.overflow = previousOverflow;
+    input.value = '';
+    composing = false;
+    results.replaceChildren();
+    hitLinks = [];
+    selected = -1;
+    if (returnFocus?.isConnected) returnFocus.focus();
+  });
+  modal.addEventListener('click', (event) => {
+    if (event.target !== modal) return;
+    const rect = modal.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) close();
+  });
+  results.addEventListener('focusin', (event) => {
+    selected = hitLinks.indexOf(event.target as HTMLAnchorElement);
+    hitLinks.forEach((link, i) => link.classList.toggle('is-selected', i === selected));
+  });
+  modal.addEventListener('keydown', (event) => {
+    if (event.isComposing || composing || event.keyCode === 229) return;
+    const atInput = event.target === input;
+    const atResult = hitLinks.includes(event.target as HTMLAnchorElement);
+    if ((!atInput && !atResult) || !hitLinks.length || event.altKey || event.ctrlKey || event.metaKey) return;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const next = atInput ? (event.key === 'ArrowDown' ? 0 : hitLinks.length - 1) : (selected + (event.key === 'ArrowDown' ? 1 : -1) + hitLinks.length) % hitLinks.length;
+      selectResult(next);
+    } else if (event.key === 'Enter' && atInput) {
+      event.preventDefault();
+      hitLinks[0].click();
+    }
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.isComposing || composing || event.keyCode === 229) return;
+    if ((event.metaKey || event.ctrlKey) && !event.altKey && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      modal.open ? close() : open();
+      return;
+    }
+    const target = event.target;
+    const editable = target instanceof HTMLElement && (target.isContentEditable || Boolean(target.closest('input, textarea, select, [contenteditable="true"], [role="textbox"]')));
+    if (event.key === '/' && !event.metaKey && !event.ctrlKey && !event.altKey && !editable && !modal.open) {
+      event.preventDefault();
+      open();
     }
   });
   document.addEventListener('open-search', open);

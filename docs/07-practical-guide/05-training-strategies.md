@@ -129,3 +129,8 @@ ImageNet 预训练 → 切掉分类头 → 接新任务 → 微调
 
 - [上一篇：超参数调优](04-hyperparameter-tuning.md)
 - [下一篇：模型部署](06-deployment.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/07-practical-guide/05-training-strategies-题目.md)
+- [节末小测：答案解析](../../exams/07-practical-guide/05-training-strategies-答案解析.md)

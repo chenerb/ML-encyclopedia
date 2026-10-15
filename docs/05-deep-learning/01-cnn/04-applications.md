@@ -122,9 +122,9 @@ CNN 的**层级特征**天然适合视觉：
 4. 视觉是深度学习最成熟、应用最广的领域
 
 **进一步学习方向：**
-- [计算机视觉](../08-applications/01-computer-vision.md)：视觉应用的全局图景
-- [AlexNet](../06-milestone-models/01-alexnet.md)：CNN 的成名之战
-- [ResNet](../06-milestone-models/04-resnet.md)：让 CNN 更深更强
+- [计算机视觉](../../08-applications/01-computer-vision.md)：视觉应用的全局图景
+- [AlexNet](../../06-milestone-models/01-alexnet.md)：CNN 的成名之战
+- [ResNet](../../06-milestone-models/04-resnet.md)：让 CNN 更深更强
 
 ---
 
@@ -138,3 +138,8 @@ CNN 的**层级特征**天然适合视觉：
 
 - [上一篇：池化层](03-pooling-layer.md)
 - [下一篇：RNN简介](../02-rnn/01-introduction.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/01-cnn-04-applications-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/01-cnn-04-applications-答案解析.md)

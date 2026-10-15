@@ -144,7 +144,7 @@ CNN 正是这样：**用一个小窗口（卷积核）扫遍全图，处处用�
 **进一步学习方向：**
 - [卷积层](02-convolution-layer.md)：卷积到底怎么算
 - [池化层](03-pooling-layer.md)：如何浓缩特征
-- [AlexNet](../06-milestone-models/01-alexnet.md)：CNN 的成名之战
+- [AlexNet](../../06-milestone-models/01-alexnet.md)：CNN 的成名之战
 
 ---
 
@@ -156,5 +156,10 @@ CNN 正是这样：**用一个小窗口（卷积核）扫遍全图，处处用�
 
 ## 相关链接
 
-- [上一篇：优化器](../04-neural-networks/07-optimizers.md)
+- [上一篇：优化器](../../04-neural-networks/07-optimizers.md)
 - [下一篇：卷积层](02-convolution-layer.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/01-cnn-01-introduction-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/01-cnn-01-introduction-答案解析.md)

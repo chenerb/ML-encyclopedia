@@ -191,3 +191,8 @@
 
 - [上一篇：决策树](03-decision-trees.md)
 - [下一篇：支持向量机](05-svm.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/03-traditional-ml/04-random-forest-题目.md)
+- [节末小测：答案解析](../../exams/03-traditional-ml/04-random-forest-答案解析.md)

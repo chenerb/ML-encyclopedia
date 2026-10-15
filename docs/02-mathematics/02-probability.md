@@ -318,3 +318,8 @@ P(垃圾|中奖) = 0.4×0.3 / 0.127 ≈ 0.945
 - [下一篇：微积分基础](03-calculus.md)
 - [朴素贝叶斯算法](../03-traditional-ml/08-naive-bayes.md)
 - [模型评估方法](../03-traditional-ml/09-model-evaluation.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/02-mathematics/02-probability-题目.md)
+- [节末小测：答案解析](../../exams/02-mathematics/02-probability-答案解析.md)

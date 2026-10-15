@@ -1,0 +1,83 @@
+---
+import { articlePath, type ArticleMeta } from '../utils/paths';
+interface Props { articles: ArticleMeta[] }
+const { articles } = Astro.props;
+const data = articles.map(({ id, title, ...article }) => ({ id, title, href: articlePath({ id, title, ...article }) }));
+---
+
+<section class="learning-dashboard max-w-5xl mx-auto px-6 pb-6" aria-labelledby="learning-title" data-learning-dashboard>
+  <div class="learning-panel">
+    <div class="learning-summary">
+      <div class="learning-orbit" aria-hidden="true"><span id="learning-count">0</span><small>已学</small></div>
+      <div>
+        <h2 id="learning-title">让每一次学习，都接得上</h2>
+        <p id="learning-summary">从一篇文章开始，把知识慢慢连成体系。</p>
+        <p class="learning-privacy" id="learning-privacy">进度仅保存在当前浏览器，无需登录。</p>
+      </div>
+    </div>
+    <a id="continue-learning" href={articlePath(articles[0])} class="continue-link">
+      <span id="continue-label">开始第一课</span>
+      <strong id="continue-title">{articles[0].title}</strong>
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+    </a>
+  </div>
+  <script id="learning-articles" type="application/json" set:html={JSON.stringify(data).replace(/</g, '\\u003c')} />
+</section>
+
+<script>
+  import { createLearningStore } from '../utils/learning-state.mjs';
+  const dashboard = document.querySelector('[data-learning-dashboard]');
+  if (dashboard) {
+    const articles: { id: string; title: string; href: string }[] = JSON.parse(document.getElementById('learning-articles')!.textContent!);
+    function refreshLearning() {
+      const store = createLearningStore();
+      const state = store.get();
+      const completed = articles.filter(article => state.articles[article.id]?.completed).length;
+      const last = articles.find(article => article.id === state.lastArticleId);
+      document.getElementById('learning-count')!.textContent = String(completed);
+      const summary = document.getElementById('learning-summary')!;
+      if (last) summary.textContent = `已学 ${completed} / ${articles.length} 篇，按自己的节奏继续。`;
+      const next = last && state.articles[last.id]?.completed
+        ? articles.slice(articles.indexOf(last) + 1).find(article => !state.articles[article.id]?.completed)
+          ?? articles.find(article => !state.articles[article.id]?.completed)
+        : last;
+      if (next) {
+        (document.getElementById('continue-learning') as HTMLAnchorElement).href = next.href;
+        document.getElementById('continue-title')!.textContent = next.title;
+        document.getElementById('continue-label')!.textContent = next.id === last?.id ? '继续上次学习' : '探索下一课';
+        const hero = document.getElementById('hero-learning-link') as HTMLAnchorElement | null;
+        if (hero) hero.href = next.href;
+        const heroLabel = document.getElementById('hero-learning-label');
+        if (heroLabel) heroLabel.textContent = '继续学习';
+      } else if (completed === articles.length) {
+        document.getElementById('continue-label')!.textContent = '全书已学完，回顾第一课';
+        summary.textContent = `${articles.length} 篇已全部标记学会，去做配套测验检验理解吧。`;
+      }
+      if (!store.persistent) document.getElementById('learning-privacy')!.textContent = '浏览器未允许保存学习记录，仍可正常阅读。';
+    }
+    refreshLearning();
+    window.addEventListener('pageshow', refreshLearning);
+    window.addEventListener('storage', refreshLearning);
+  }
+</script>
+
+<style>
+  .learning-panel { display:flex; align-items:center; justify-content:space-between; gap:2rem; background:#fff; border:1px solid #e0e4f4; border-radius:1rem; padding:1.5rem 1.75rem; }
+  .learning-summary { display:flex; align-items:center; gap:1.25rem; }
+  .learning-orbit { flex-shrink:0; width:4rem; height:4rem; border-radius:50%; border:3px solid #e0e7ff; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#4f46e5; }
+  .learning-orbit span { font-size:1.2rem; font-weight:700; line-height:1.3; }
+  .learning-orbit small { font-size:.6rem; }
+  h2 { font-size:.95rem; font-weight:600; margin-bottom:.35rem; }
+  p { font-size:.8rem; color:#6b7280; line-height:1.6; }
+  p.learning-privacy { font-size:.65rem; margin-top:.35rem; color:#6b7280; }
+  .continue-link { flex-shrink:0; max-width:45%; position:relative; padding:.8rem 2.8rem .8rem 1rem; border-radius:.75rem; background:#eef2ff; color:#4338ca; transition:transform 180ms ease-out; }
+  .continue-link:hover { transform:translateX(3px); }
+  .continue-link span { display:block; font-size:.65rem; margin-bottom:.2rem; opacity:.8; }
+  .continue-link strong { display:block; font-size:.8rem; font-weight:600; }
+  .continue-link svg { position:absolute; right:1rem; top:50%; margin-top:-.5rem; width:1rem; height:1rem; }
+  :global(.dark) .learning-panel { background:#ffffff05; border-color:#ffffff12; }
+  :global(.dark) .learning-orbit { border-color:#6366f14d; color:#a5b4fc; }
+  :global(.dark) .continue-link { background:#6366f126; color:#c7d2fe; }
+  :global(.dark) p { color:#9ca3af; }
+  @media(max-width:640px) { .learning-panel { flex-direction:column; align-items:stretch; padding:1.25rem; gap:1rem; } .learning-summary { gap:1rem; } .continue-link { max-width:none; } h2 { font-size:.85rem; } }
+</style>

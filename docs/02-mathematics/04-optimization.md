@@ -435,3 +435,8 @@ w₂ = 5 - 0.001×2/√(4+10⁻⁸) = 5 - 0.001×2/2 = 5 - 0.001 = 4.999
 - [下一篇：线性回归](../03-traditional-ml/01-linear-regression.md)
 - [梯度下降详解](../04-neural-networks/04-gradient-descent.md)
 - [优化器详解](../04-neural-networks/07-optimizers.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/02-mathematics/04-optimization-题目.md)
+- [节末小测：答案解析](../../exams/02-mathematics/04-optimization-答案解析.md)

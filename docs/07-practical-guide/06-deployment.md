@@ -127,3 +127,8 @@
 
 - [上一篇：训练策略](05-training-strategies.md)
 - [下一篇：伦理与责任](07-ethics-responsibility.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/07-practical-guide/06-deployment-题目.md)
+- [节末小测：答案解析](../../exams/07-practical-guide/06-deployment-答案解析.md)

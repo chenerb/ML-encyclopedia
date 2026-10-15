@@ -18,10 +18,17 @@
 
 <script>
   const btn = document.getElementById('theme-toggle');
+  function updateLabel() {
+    const label = document.documentElement.classList.contains('dark') ? '切换浅色模式' : '切换深色模式';
+    btn?.setAttribute('aria-label', label);
+    btn?.setAttribute('title', label);
+  }
+  updateLabel();
   btn?.addEventListener('click', () => {
     const root = document.documentElement;
     const isDark = root.classList.contains('dark');
     root.classList.toggle('dark', !isDark);
-    localStorage.setItem('color-theme', isDark ? 'light' : 'dark');
+    try { localStorage.setItem('color-theme', isDark ? 'light' : 'dark'); } catch {}
+    updateLabel();
   });
 </script>

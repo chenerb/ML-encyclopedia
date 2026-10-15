@@ -130,3 +130,8 @@ ResNet 有 18、34、50、101、152 层多个版本，最深 152 层。深度带
 
 - [上一篇：GoogLeNet](03-googlenet.md)
 - [下一篇：Transformer (2017)](05-transformer.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/06-milestone-models/04-resnet-题目.md)
+- [节末小测：答案解析](../../exams/06-milestone-models/04-resnet-答案解析.md)

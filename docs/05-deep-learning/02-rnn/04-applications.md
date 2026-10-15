@@ -119,8 +119,8 @@ RNN、LSTM、GRU 在序列任务上各显神通，从翻译到语音、从写诗
 
 **进一步学习方向：**
 - [Transformer简介](../03-transformer/01-introduction.md)：取代 RNN 的注意力范式
-- [自然语言处理](../08-applications/02-natural-language-processing.md)：NLP 全局图景
-- [语音识别](../08-applications/03-speech-recognition.md)：RNN 的经典落地
+- [自然语言处理](../../08-applications/02-natural-language-processing.md)：NLP 全局图景
+- [语音识别](../../08-applications/03-speech-recognition.md)：RNN 的经典落地
 
 ---
 
@@ -133,3 +133,8 @@ RNN、LSTM、GRU 在序列任务上各显神通，从翻译到语音、从写诗
 
 - [上一篇：GRU网络](03-gru.md)
 - [下一篇：Transformer简介](../03-transformer/01-introduction.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/02-rnn-04-applications-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/02-rnn-04-applications-答案解析.md)

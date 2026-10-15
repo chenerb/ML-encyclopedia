@@ -71,3 +71,8 @@
 
 - [上一篇：在线课程](02-courses.md)
 - [下一篇：常用数据集](04-datasets.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/09-resources/03-papers-题目.md)
+- [节末小测：答案解析](../../exams/09-resources/03-papers-答案解析.md)

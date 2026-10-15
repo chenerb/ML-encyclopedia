@@ -112,6 +112,11 @@
 * [工具和框架](docs/09-resources/05-tools-frameworks.md)
 * [社区和论坛](docs/09-resources/06-communities.md)
 
+## 测验与实践
+
+* [配套测试卷与答案解析](exams/README.md)
+* [代码示例与运行指南](examples/README.md)
+
 ## 附录
 
 * [英汉术语对照表](glossary/english-chinese.md)

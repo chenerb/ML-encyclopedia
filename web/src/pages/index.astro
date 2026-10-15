@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CategoryCard from '../components/CategoryCard.astro';
+import LearningDashboard from '../components/LearningDashboard.astro';
 import { getCollection } from 'astro:content';
 import { CHAPTERS } from '../utils/chapters';
 import { buildArticleIndex, articlePath, getPath } from '../utils/paths';
@@ -51,10 +52,11 @@ const totalArticles = articles.length;
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
         {firstArticle && (
           <a
+            id="hero-learning-link"
             href={articlePath(firstArticle)}
             class="group inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-all duration-300 shadow-lg shadow-gray-900/10 dark:shadow-white/10 cursor-pointer"
           >
-            开始学习
+            <span id="hero-learning-label">开始学习</span>
             <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
@@ -91,6 +93,7 @@ const totalArticles = articles.length;
   </section>
 
   <!-- Chapters -->
+  <LearningDashboard articles={articles} />
   <section id="chapters" class="py-20">
     <div class="max-w-7xl mx-auto px-6">
       <div class="text-center mb-14">
@@ -126,7 +129,7 @@ const totalArticles = articles.length;
           [
             { icon: '🧠', title: '费曼学习法', desc: '开篇悬念提问 + 关键概念自问 + 文末自测，倒逼你把知识讲出来', from: '#6366F1', to: '#8B5CF6' },
             { icon: '📖', title: '寓言故事教学', desc: '每个核心概念配一个寓言：盲人下山、死记硬背的考生……让概念住进脑子', from: '#8B5CF6', to: '#EC4899' },
-            { icon: '📝', title: '学完即测', desc: '每节小测 + 章节综合卷 + 挑战卷 + 大厂压力面，共 189 份试卷含解析', from: '#F97316', to: '#F59E0B' },
+            { icon: '📝', title: '学完即测', desc: '94 套配套试卷，题目与解析站内阅读，学完立即检验理解', from: '#F97316', to: '#F59E0B' },
             { icon: '💻', title: '配套代码示例', desc: '手写算法 + 框架实现对照，边学边练，理论落地', from: '#06B6D4', to: '#10B981' },
           ].map((f) => (
             <div class="group relative p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.06] hover:border-gray-300 dark:hover:border-white/[0.12] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">

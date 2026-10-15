@@ -223,3 +223,8 @@ w = (XᵀX)⁻¹ Xᵀy
 
 - [上一篇：优化理论](../02-mathematics/04-optimization.md)
 - [下一篇：逻辑回归](02-logistic-regression.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/03-traditional-ml/01-linear-regression-题目.md)
+- [节末小测：答案解析](../../exams/03-traditional-ml/01-linear-regression-答案解析.md)

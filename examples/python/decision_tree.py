@@ -32,7 +32,7 @@ print(f"测试集准确率 = {accuracy_score(y_test, y_pred):.4f}")
 print(f"树的最大深度 = {tree.get_depth()}")
 
 # ============ 5. 特征重要性 ============
-print("\n特征重要性（哪个特征最"会提问"）：")
+print("\n特征重要性（哪个特征最“会提问”）：")
 for name, imp in zip(feature_names, tree.feature_importances_):
     print(f"  {name}: {imp:.4f}")
 
@@ -40,6 +40,6 @@ for name, imp in zip(feature_names, tree.feature_importances_):
 plt.figure(figsize=(12, 8))
 plot_tree(tree, feature_names=feature_names,
           class_names=class_names, filled=True, rounded=True)
-plt.title("决策树：每个节点都是一次"是/否"提问")
+plt.title("决策树：每个节点都是一次“是/否”提问")
 plt.savefig("decision_tree.png", dpi=150, bbox_inches="tight")
-print("\n决策树已保存为 decision_tree.png，打开看看它如何"提问"！")
+print("\n决策树已保存为 decision_tree.png，打开看看它如何“提问”！")

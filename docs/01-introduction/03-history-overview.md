@@ -256,3 +256,8 @@ AI的历史是一部**跌宕起伏的奋斗史**：
 - [上一篇：机器学习 vs 深度学习](02-ml-vs-dl.md)
 - [下一篇：线性代数基础](../02-mathematics/01-linear-algebra.md)
 - [里程碑模型详解](../06-milestone-models/01-alexnet.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/01-introduction/03-history-overview-题目.md)
+- [节末小测：答案解析](../../exams/01-introduction/03-history-overview-答案解析.md)

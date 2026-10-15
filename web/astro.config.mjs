@@ -6,6 +6,8 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import rehypeContentLinks from './src/plugins/rehype-content-links.mjs';
+import { fileURLToPath } from 'node:url';
 
 // https://astro.build/config
 export default defineConfig({
@@ -26,6 +28,7 @@ export default defineConfig({
     },
     remarkPlugins: [remarkMath],
     rehypePlugins: [
+      [rehypeContentLinks, { base: '/ML-encyclopedia', repoRoot: fileURLToPath(new URL('../', import.meta.url)) }],
       rehypeSlug,
       [rehypeAutolinkHeadings, { behavior: 'wrap' }],
       [rehypeExternalLinks, { target: '_blank', rel: ['nofollow', 'noopener'] }],

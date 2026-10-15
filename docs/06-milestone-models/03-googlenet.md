@@ -130,3 +130,8 @@ VGG 的全连接层占了大量参数。GoogLeNet 改用**全局平均池化**�
 
 - [上一篇：VGGNet](02-vggnet.md)
 - [下一篇：ResNet](04-resnet.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/06-milestone-models/03-googlenet-题目.md)
+- [节末小测：答案解析](../../exams/06-milestone-models/03-googlenet-答案解析.md)

@@ -112,9 +112,9 @@ GAN 让机器拥有了"想象力"。从图像生成到深度伪造，从艺术�
 4. 深度伪造提醒我们警惕技术滥用
 
 **进一步学习方向：**
-- [扩散模型](../06-milestone-models/08-diffusion-models.md)：生成式 AI 的新一代霸主
+- [扩散模型](../../06-milestone-models/08-diffusion-models.md)：生成式 AI 的新一代霸主
 - [变分自编码器](../05-autoencoders/02-variational-autoencoders.md)：另一种生成思路
-- [伦理与责任](../07-practical-guide/07-ethics-responsibility.md)：生成式 AI 的伦理
+- [伦理与责任](../../07-practical-guide/07-ethics-responsibility.md)：生成式 AI 的伦理
 
 ---
 
@@ -128,3 +128,8 @@ GAN 让机器拥有了"想象力"。从图像生成到深度伪造，从艺术�
 
 - [上一篇：生成器与判别器](02-generator-discriminator.md)
 - [下一篇：自编码器简介](../05-autoencoders/01-introduction.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/04-gan-03-applications-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/04-gan-03-applications-答案解析.md)

@@ -369,3 +369,8 @@ w_{t+1} = w_t - ηv_{t+1}
 - [下一篇：优化理论](04-optimization.md)
 - [梯度下降详解](../04-neural-networks/04-gradient-descent.md)
 - [反向传播算法](../04-neural-networks/03-backpropagation.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/02-mathematics/03-calculus-题目.md)
+- [节末小测：答案解析](../../exams/02-mathematics/03-calculus-答案解析.md)

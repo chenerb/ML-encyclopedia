@@ -165,3 +165,8 @@ RNN 的 W、U、b 在**所有时刻共享**——同一个"阅读器"逐字读�
 
 - [上一篇：CNN应用场景](../01-cnn/04-applications.md)
 - [下一篇：LSTM网络](02-lstm.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/02-rnn-01-introduction-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/02-rnn-01-introduction-答案解析.md)

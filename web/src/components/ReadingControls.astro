@@ -1,0 +1,138 @@
+---
+interface Props { articleId: string }
+const { articleId } = Astro.props;
+---
+
+<section class="reader-tools" data-reader-id={articleId} aria-label="阅读工具">
+  <div class="reader-toolbar">
+    <span class="reader-position">已读 <strong id="reader-percent">0%</strong></span>
+    <div class="reader-actions">
+      <button id="focus-reading" type="button" aria-pressed="false" title="收起侧栏，专注正文">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg>
+        <span>专注阅读</span>
+      </button>
+      <button id="complete-reading" type="button" aria-pressed="false">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>
+        <span>标记已学</span>
+      </button>
+    </div>
+  </div>
+  <div id="resume-reading" class="resume-banner" hidden>
+    <p>上次读到 <strong id="resume-percent"></strong>，接着探索吧。</p>
+    <div class="reader-actions">
+      <button id="resume-position" type="button">继续上次位置</button>
+      <button id="restart-reading" type="button">从头阅读</button>
+    </div>
+  </div>
+  <p id="reading-feedback" class="reader-feedback" role="status">学习记录仅保存在当前浏览器。</p>
+</section>
+
+<script>
+  import { createLearningStore, getReadingProgress } from '../utils/learning-state.mjs';
+  const tools = document.querySelector<HTMLElement>('[data-reader-id]');
+  const article = document.querySelector<HTMLElement>('[data-reading-article]');
+  if (tools && article) {
+    const id = tools.dataset.readerId!;
+    const store = createLearningStore();
+    const saved = store.get().articles[id];
+    const resume = document.getElementById('resume-reading')!;
+    const percent = document.getElementById('reader-percent')!;
+    const feedback = document.getElementById('reading-feedback')!;
+    const complete = document.getElementById('complete-reading')!;
+    const focus = document.getElementById('focus-reading')!;
+    let maySave = false;
+    let saveTimer: ReturnType<typeof setTimeout>;
+    let frame = 0;
+    let position = 0;
+    store.update(id, {});
+
+    function updateCompleteButton() {
+      const learned = store.get().articles[id]?.completed === true;
+      complete.setAttribute('aria-pressed', String(learned));
+      complete.querySelector('span')!.textContent = learned ? '已学会 · 撤销' : '标记已学';
+    }
+    function updatePosition() {
+      const top = article!.getBoundingClientRect().top + window.scrollY;
+      position = getReadingProgress(window.scrollY, top, article!.offsetHeight, window.innerHeight);
+      percent.textContent = `${Math.round(position * 100)}%`;
+      if (maySave) {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => store.update(id, { progress: position }), 350);
+      }
+    }
+    function onScroll() {
+      // A real nonzero scroll also covers dragging the scrollbar and browser restoration.
+      // Initial rendering at the top must not erase a previously saved position.
+      if (window.scrollY > 0) maySave = true;
+      if (frame) return;
+      frame = requestAnimationFrame(() => { frame = 0; updatePosition(); });
+    }
+    if (saved?.progress > 0.03 && saved.progress < 0.99 && !location.hash) {
+      resume.hidden = false;
+      document.getElementById('resume-percent')!.textContent = `${Math.round(saved.progress * 100)}%`;
+    }
+    if (!store.persistent) feedback.textContent = '浏览器未允许保存，当前页面仍可正常使用。';
+    updateCompleteButton();
+    updatePosition();
+
+    complete.addEventListener('click', () => {
+      const learned = !store.get().articles[id]?.completed;
+      store.update(id, { completed: learned });
+      updateCompleteButton();
+      feedback.textContent = store.persistent
+        ? (learned ? '已加入学习进度。可继续做配套练习，检验理解。' : '已撤销完成标记，阅读位置仍保留。')
+        : '本页已更新；浏览器未允许保存，刷新后此标记会丢失。';
+    });
+    focus.addEventListener('click', () => {
+      const active = document.documentElement.classList.toggle('reading-focus');
+      focus.setAttribute('aria-pressed', String(active));
+      focus.querySelector('span')!.textContent = active ? '退出专注' : '专注阅读';
+    });
+    document.getElementById('resume-position')!.addEventListener('click', () => {
+      resume.hidden = true;
+      maySave = true;
+      const top = article!.getBoundingClientRect().top + window.scrollY;
+      const distance = Math.max(1, article!.offsetHeight - window.innerHeight + 96);
+      window.scrollTo({ top: Math.max(0, top - 96 + saved.progress * distance), behavior: 'instant' });
+      updatePosition();
+    });
+    document.getElementById('restart-reading')!.addEventListener('click', () => {
+      resume.hidden = true;
+      maySave = true;
+      store.update(id, { progress: 0 });
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      updatePosition();
+    });
+    window.addEventListener('wheel', () => { maySave = true; }, { passive: true });
+    window.addEventListener('touchmove', () => { maySave = true; }, { passive: true });
+    document.addEventListener('keydown', (event) => {
+      if (!['PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', 'Home', 'End', ' '].includes(event.key)) return;
+      const target = event.target as HTMLElement;
+      if (!target.closest('dialog, input, textarea, button, [contenteditable]')) maySave = true;
+    });
+    document.querySelectorAll('a[href^="#"]').forEach(link => link.addEventListener('click', () => { maySave = true; }));
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    window.addEventListener('pagehide', () => { if (maySave) store.update(id, { progress: position }); });
+  }
+</script>
+
+<style>
+  .reader-tools { margin-bottom: 1.75rem; }
+  .reader-toolbar { display:flex; align-items:center; justify-content:space-between; gap:.75rem; padding:.8rem 0; border-block:1px solid #e5e7eb; }
+  .reader-position { color:#6b7280; font-size:.75rem; white-space:nowrap; }
+  .reader-position strong { color:#6366f1; margin-left:.3rem; }
+  .reader-actions { display:flex; align-items:center; flex-wrap:wrap; gap:.5rem; }
+  button { display:inline-flex; align-items:center; justify-content:center; gap:.35rem; min-height:40px; padding:.45rem .65rem; border-radius:.6rem; color:#4b5563; font-size:.75rem; transition:transform 150ms ease-out; }
+  button:hover { background:#eef2ff; color:#4f46e5; }
+  button:active { transform:scale(.97); }
+  button[aria-pressed="true"] { background:#eef2ff; color:#4f46e5; }
+  button svg { width:1rem; height:1rem; flex-shrink:0; }
+  .reader-feedback { color:#6b7280; font-size:.7rem; margin-top:.5rem; min-height:1rem; }
+  .resume-banner { display:flex; align-items:center; justify-content:space-between; gap:.5rem; flex-wrap:wrap; margin-top:.75rem; padding:.75rem 1rem; background:#eef2ff; border:1px solid #c7d2fe; border-radius:.75rem; font-size:.8rem; color:#4338ca; }
+  #resume-position { background:#4f46e5; color:white; }
+  :global(.dark) .reader-toolbar { border-color:#ffffff16; }
+  :global(.dark) button, :global(.dark) .reader-feedback, :global(.dark) .reader-position { color:#9ca3af; }
+  :global(.dark) .resume-banner, :global(.dark) button[aria-pressed="true"], :global(.dark) button:hover { background:#6366f11a; color:#c7d2fe; border-color:#6366f14d; }
+  @media(max-width:400px) { button { padding:.45rem; } .reader-actions { gap:.15rem; } }
+</style>

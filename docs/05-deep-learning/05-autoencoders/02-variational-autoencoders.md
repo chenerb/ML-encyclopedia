@@ -137,7 +137,7 @@ VAE 像"理解规律"：它不记"这只猫长这样"，而记"猫大概长什�
 **进一步学习方向：**
 - [自编码器简介](01-introduction.md)：VAE 的"前身"
 - [GAN简介](../04-gan/01-introduction.md)：另一种生成思路
-- [扩散模型](../06-milestone-models/08-diffusion-models.md)：生成质量的新巅峰
+- [扩散模型](../../06-milestone-models/08-diffusion-models.md)：生成质量的新巅峰
 
 ---
 
@@ -149,4 +149,9 @@ VAE 像"理解规律"：它不记"这只猫长这样"，而记"猫大概长什�
 ## 相关链接
 
 - [上一篇：自编码器简介](01-introduction.md)
-- [下一篇：AlexNet](../06-milestone-models/01-alexnet.md)
+- [下一篇：AlexNet](../../06-milestone-models/01-alexnet.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/05-autoencoders-02-variational-autoencoders-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/05-autoencoders-02-variational-autoencoders-答案解析.md)

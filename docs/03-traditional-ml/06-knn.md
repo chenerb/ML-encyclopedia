@@ -193,3 +193,8 @@ K 是 KNN 最重要的超参数，直接影响结果：
 
 - [上一篇：支持向量机](05-svm.md)
 - [下一篇：聚类算法](07-clustering.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/03-traditional-ml/06-knn-题目.md)
+- [节末小测：答案解析](../../exams/03-traditional-ml/06-knn-答案解析.md)

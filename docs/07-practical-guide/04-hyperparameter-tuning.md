@@ -125,3 +125,8 @@ max_depth ∈ {3, 5, 7}, n_estimators ∈ {100, 200}
 
 - [上一篇：模型选择](03-model-selection.md)
 - [下一篇：训练策略](05-training-strategies.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/07-practical-guide/04-hyperparameter-tuning-题目.md)
+- [节末小测：答案解析](../../exams/07-practical-guide/04-hyperparameter-tuning-答案解析.md)

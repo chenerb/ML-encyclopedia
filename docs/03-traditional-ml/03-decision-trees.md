@@ -215,3 +215,8 @@ H = -Σ pᵢ · log₂(pᵢ)
 
 - [上一篇：逻辑回归](02-logistic-regression.md)
 - [下一篇：随机森林](04-random-forest.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/03-traditional-ml/03-decision-trees-题目.md)
+- [节末小测：答案解析](../../exams/03-traditional-ml/03-decision-trees-答案解析.md)

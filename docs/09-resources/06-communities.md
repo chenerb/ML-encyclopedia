@@ -65,3 +65,8 @@
 
 - [上一篇：工具和框架](05-tools-frameworks.md)
 - [返回项目首页](../../README.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/09-resources/06-communities-题目.md)
+- [节末小测：答案解析](../../exams/09-resources/06-communities-答案解析.md)

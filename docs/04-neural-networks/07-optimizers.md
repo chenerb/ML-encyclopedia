@@ -198,3 +198,8 @@ v ← β₂·v + (1-β₂)·g²       （二阶矩：梯度的"幅度记忆"）
 
 - [上一篇：正则化技术](06-regularization.md)
 - [下一篇：CNN简介](../05-deep-learning/01-cnn/01-introduction.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/04-neural-networks/07-optimizers-题目.md)
+- [节末小测：答案解析](../../exams/04-neural-networks/07-optimizers-答案解析.md)

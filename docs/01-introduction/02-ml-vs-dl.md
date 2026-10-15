@@ -229,3 +229,8 @@ AlexNet的成功 = 深层CNN架构 + ReLU激活函数 + Dropout正则化
 - [上一篇：什么是机器学习](01-what-is-ml.md)
 - [下一篇：历史发展概述](03-history-overview.md)
 - [深度学习入口：CNN简介](../05-deep-learning/01-cnn/01-introduction.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/01-introduction/02-ml-vs-dl-题目.md)
+- [节末小测：答案解析](../../exams/01-introduction/02-ml-vs-dl-答案解析.md)

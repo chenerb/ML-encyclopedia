@@ -135,8 +135,8 @@
 
 **进一步学习方向：**
 - [Transformer应用](04-applications.md)：编码器-解码器的实际应用
-- [BERT](../06-milestone-models/06-bert.md)：只用编码器的预训练模型
-- [GPT系列](../06-milestone-models/07-gpt-series.md)：只用解码器的大模型
+- [BERT](../../06-milestone-models/06-bert.md)：只用编码器的预训练模型
+- [GPT系列](../../06-milestone-models/07-gpt-series.md)：只用解码器的大模型
 
 ---
 
@@ -149,3 +149,8 @@
 
 - [上一篇：注意力机制](02-attention-mechanism.md)
 - [下一篇：Transformer应用](04-applications.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/03-transformer-03-encoder-decoder-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/03-transformer-03-encoder-decoder-答案解析.md)

@@ -182,6 +182,25 @@
 
 ## 🤝 贡献指南
 
+### 网站开发与质量检查
+
+在线阅读支持全文搜索、阅读位置恢复、手动已学标记、专注模式和 [94 套站内练习](https://chenerb.github.io/ML-encyclopedia/exams/)。学习记录保存在当前浏览器，无需登录。
+
+本地开发与验证方式见 [前端说明](web/README.md)。提交前可运行：
+
+```bash
+python3 -m unittest discover -s tests -v
+python3 scripts/check_content.py
+cd web
+npm ci
+npm test
+npm run build
+cd ..
+python3 scripts/check_site.py
+```
+
+### 参与贡献
+
 欢迎贡献！请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何参与本项目。
 
 贡献类型：
@@ -196,10 +215,10 @@
 ## 📄 许可证
 
 - 文档内容：[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-- 代码示例：[MIT License](LICENSE)
+- 代码示例：[MIT License](https://opensource.org/license/mit/)
 
 ---
 
-**最后更新**：2026年10月3日 | **维护者**：机器学习到深度学习演变百科全书项目组
+**最后更新**：2026年10月15日 | **维护者**：机器学习到深度学习演变百科全书项目组
 
 📔 查看[开发日志](DEVELOPMENT_LOG.md)了解项目演进历史与最新进展。

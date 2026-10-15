@@ -142,3 +142,8 @@ L_G = −log D(G(z))                    （生成器要最小化）
 
 - [上一篇：GAN简介](01-introduction.md)
 - [下一篇：GAN应用场景](03-applications.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/04-gan-02-generator-discriminator-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/04-gan-02-generator-discriminator-答案解析.md)

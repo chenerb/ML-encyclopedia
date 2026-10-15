@@ -115,3 +115,8 @@
 
 - [上一篇：推荐系统](04-recommendation-systems.md)
 - [下一篇：医疗健康](06-healthcare.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/08-applications/05-autonomous-driving-题目.md)
+- [节末小测：答案解析](../../exams/08-applications/05-autonomous-driving-答案解析.md)

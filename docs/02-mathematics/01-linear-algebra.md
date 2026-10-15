@@ -331,3 +331,8 @@ w = [[w₁],
 - [下一篇：概率论基础](02-probability.md)
 - [上一篇：历史发展概述](../01-introduction/03-history-overview.md)
 - [线性回归实例](../03-traditional-ml/01-linear-regression.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/02-mathematics/01-linear-algebra-题目.md)
+- [节末小测：答案解析](../../exams/02-mathematics/01-linear-algebra-答案解析.md)

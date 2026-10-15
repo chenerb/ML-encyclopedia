@@ -128,3 +128,8 @@
 
 - [上一篇：扩散模型](../06-milestone-models/08-diffusion-models.md)
 - [下一篇：特征工程](02-feature-engineering.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/07-practical-guide/01-data-preprocessing-题目.md)
+- [节末小测：答案解析](../../exams/07-practical-guide/01-data-preprocessing-答案解析.md)

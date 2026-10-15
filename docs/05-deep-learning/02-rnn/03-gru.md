@@ -152,3 +152,8 @@ LSTM 像"两本本子"：一本草稿（细胞状态 C）、一本正式笔记�
 
 - [上一篇：LSTM网络](02-lstm.md)
 - [下一篇：RNN应用场景](04-applications.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/02-rnn-03-gru-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/02-rnn-03-gru-答案解析.md)

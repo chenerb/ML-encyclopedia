@@ -119,3 +119,8 @@ AI 加速新药发现：
 
 - [上一篇：自动驾驶](05-autonomous-driving.md)
 - [下一篇：推荐书籍](../09-resources/01-books.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/08-applications/06-healthcare-题目.md)
+- [节末小测：答案解析](../../exams/08-applications/06-healthcare-答案解析.md)

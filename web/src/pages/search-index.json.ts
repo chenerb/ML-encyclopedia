@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { buildArticleIndex, articlePath, extractTitle, extractDescription } from '../utils/paths';
+import { buildArticleIndex, articlePath } from '../utils/paths';
 import { CHAPTERS } from '../utils/chapters';
+import { markdownToSearchText } from '../utils/search.mjs';
 
 export const prerender = true;
 
@@ -14,6 +15,7 @@ export async function GET(): Promise<APIRoute['response']> {
     return {
       title: a.title,
       description: a.description,
+      content: markdownToSearchText(a.entry.body ?? ''),
       chapter: chapter?.label ?? a.chapter,
       href: articlePath(a),
     };

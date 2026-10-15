@@ -135,7 +135,7 @@
 **进一步学习方向：**
 - [卷积层](02-convolution-layer.md)：池化之前提取了什么特征
 - [CNN应用](04-applications.md)：完整的 CNN 如何工作
-- [VGGNet](../06-milestone-models/02-vggnet.md)：池化在经典网络中的位置
+- [VGGNet](../../06-milestone-models/02-vggnet.md)：池化在经典网络中的位置
 
 ---
 
@@ -148,3 +148,8 @@
 
 - [上一篇：卷积层](02-convolution-layer.md)
 - [下一篇：CNN应用场景](04-applications.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/01-cnn-03-pooling-layer-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/01-cnn-03-pooling-layer-答案解析.md)

@@ -198,3 +198,8 @@
 
 - [上一篇：随机森林](04-random-forest.md)
 - [下一篇：K近邻算法](06-knn.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/03-traditional-ml/05-svm-题目.md)
+- [节末小测：答案解析](../../exams/03-traditional-ml/05-svm-答案解析.md)

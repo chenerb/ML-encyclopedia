@@ -223,3 +223,8 @@ Loss = -(1/n) × Σ [ yᵢ·log(ŷᵢ) + (1-yᵢ)·log(1-ŷᵢ) ]
 
 - [上一篇：线性回归](01-linear-regression.md)
 - [下一篇：决策树](03-decision-trees.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/03-traditional-ml/02-logistic-regression-题目.md)
+- [节末小测：答案解析](../../exams/03-traditional-ml/02-logistic-regression-答案解析.md)

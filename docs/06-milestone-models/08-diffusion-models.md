@@ -133,3 +133,8 @@
 
 - [上一篇：GPT系列](07-gpt-series.md)
 - [下一篇：数据预处理](../07-practical-guide/01-data-preprocessing.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/06-milestone-models/08-diffusion-models-题目.md)
+- [节末小测：答案解析](../../exams/06-milestone-models/08-diffusion-models-答案解析.md)

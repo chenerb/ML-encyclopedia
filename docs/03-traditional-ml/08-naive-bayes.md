@@ -209,3 +209,8 @@ P(垃圾 | "免费"且"中奖")
 
 - [上一篇：聚类算法](07-clustering.md)
 - [下一篇：模型评估方法](09-model-evaluation.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/03-traditional-ml/08-naive-bayes-题目.md)
+- [节末小测：答案解析](../../exams/03-traditional-ml/08-naive-bayes-答案解析.md)

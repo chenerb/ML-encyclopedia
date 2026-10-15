@@ -143,7 +143,7 @@
 **进一步学习方向：**
 - [编码器-解码器](03-encoder-decoder.md)：注意力如何组织成完整网络
 - [Transformer简介](01-introduction.md)：回顾注意力诞生的背景
-- [BERT](../06-milestone-models/06-bert.md)：注意力在预训练模型中的应用
+- [BERT](../../06-milestone-models/06-bert.md)：注意力在预训练模型中的应用
 
 ---
 
@@ -156,3 +156,8 @@
 
 - [上一篇：Transformer简介](01-introduction.md)
 - [下一篇：编码器-解码器](03-encoder-decoder.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/03-transformer-02-attention-mechanism-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/03-transformer-02-attention-mechanism-答案解析.md)

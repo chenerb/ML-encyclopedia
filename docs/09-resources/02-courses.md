@@ -62,3 +62,8 @@
 
 - [上一篇：推荐书籍](01-books.md)
 - [下一篇：重要论文](03-papers.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/09-resources/02-courses-题目.md)
+- [节末小测：答案解析](../../exams/09-resources/02-courses-答案解析.md)

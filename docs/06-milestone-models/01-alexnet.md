@@ -127,3 +127,8 @@ AlexNet = 深层 CNN + ReLU + Dropout + GPU + 大数据(ImageNet) + 数据增强
 
 - [上一篇：变分自编码器](../05-deep-learning/05-autoencoders/02-variational-autoencoders.md)
 - [下一篇：VGGNet](02-vggnet.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/06-milestone-models/01-alexnet-题目.md)
+- [节末小测：答案解析](../../exams/06-milestone-models/01-alexnet-答案解析.md)

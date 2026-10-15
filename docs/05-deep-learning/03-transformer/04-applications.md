@@ -115,9 +115,9 @@ BERT：纯编码器 → 双向理解 → 分类、问答、命名实体识别
 4. 它是当代 AI 的核心架构
 
 **进一步学习方向：**
-- [GPT系列](../06-milestone-models/07-gpt-series.md)：解码器的极致应用
-- [BERT](../06-milestone-models/06-bert.md)：编码器的预训练范式
-- [扩散模型](../06-milestone-models/08-diffusion-models.md)：生成式 AI 的另一条路
+- [GPT系列](../../06-milestone-models/07-gpt-series.md)：解码器的极致应用
+- [BERT](../../06-milestone-models/06-bert.md)：编码器的预训练范式
+- [扩散模型](../../06-milestone-models/08-diffusion-models.md)：生成式 AI 的另一条路
 
 ---
 
@@ -131,3 +131,8 @@ BERT：纯编码器 → 双向理解 → 分类、问答、命名实体识别
 
 - [上一篇：编码器-解码器](03-encoder-decoder.md)
 - [下一篇：GAN简介](../04-gan/01-introduction.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/03-transformer-04-applications-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/03-transformer-04-applications-答案解析.md)

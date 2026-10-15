@@ -247,3 +247,8 @@
 
 - [下一篇：机器学习 vs 深度学习](02-ml-vs-dl.md)
 - [历史发展概述](03-history-overview.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/01-introduction/01-what-is-ml-题目.md)
+- [节末小测：答案解析](../../exams/01-introduction/01-what-is-ml-答案解析.md)

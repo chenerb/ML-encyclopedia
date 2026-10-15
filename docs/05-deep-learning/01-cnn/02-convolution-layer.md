@@ -163,3 +163,8 @@
 
 - [上一篇：CNN简介](01-introduction.md)
 - [下一篇：池化层](03-pooling-layer.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/01-cnn-02-convolution-layer-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/01-cnn-02-convolution-layer-答案解析.md)

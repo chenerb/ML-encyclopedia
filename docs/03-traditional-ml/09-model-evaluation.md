@@ -205,3 +205,8 @@ F1 = 2 × (精确率 × 召回率) / (精确率 + 召回率)
 
 - [上一篇：朴素贝叶斯](08-naive-bayes.md)
 - [下一篇：感知机](../04-neural-networks/01-perceptron.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/03-traditional-ml/09-model-evaluation-题目.md)
+- [节末小测：答案解析](../../exams/03-traditional-ml/09-model-evaluation-答案解析.md)

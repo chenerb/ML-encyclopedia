@@ -125,3 +125,8 @@ Transformer 有编码器和解码器。BERT **只用编码器**，因此每个�
 
 - [上一篇：Transformer (2017)](05-transformer.md)
 - [下一篇：GPT系列](07-gpt-series.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/06-milestone-models/06-bert-题目.md)
+- [节末小测：答案解析](../../exams/06-milestone-models/06-bert-答案解析.md)

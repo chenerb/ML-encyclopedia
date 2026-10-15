@@ -204,3 +204,8 @@ L1/L2 正则就是这个"扣分规矩"：**模型越复杂（权重越大），�
 
 - [上一篇：激活函数](05-activation-functions.md)
 - [下一篇：优化器](07-optimizers.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/04-neural-networks/06-regularization-题目.md)
+- [节末小测：答案解析](../../exams/04-neural-networks/06-regularization-答案解析.md)

@@ -6,7 +6,38 @@
 
 ---
 
-## v0.5.1 — 2026-10-03（当前版本）
+## v0.6.0 — 2026-10-15（当前版本）
+
+### 🎯 本次主题：打通在线学习流程与自动质量检查
+
+### ✨ 新增内容
+- `web/src/components/ReadingControls.astro`、`LearningDashboard.astro`：阅读位置恢复、专注模式、可撤销已学标记和首页继续学习入口。记录仅保存在当前浏览器，支持存储异常降级与多标签页合并。
+- `web/src/pages/exams/index.astro`、`exams/[...slug].astro`：94 套试卷目录、188 个独立题目/解析页，支持版本切换与对应正文回链。
+- `web/src/utils/content-links.mjs`、`web/src/plugins/rehype-content-links.mjs`：按 Markdown 源文件解析站内链接，处理项目 base、嵌套章节与中文试卷路径。
+- `web/src/utils/search.mjs`、`learning-state.mjs` 与 `web/tests/`：全文检索、学习状态及路径映射逻辑与回归测试。
+- `scripts/check_content.py`、`scripts/check_site.py` 与 `tests/`：标准库检查源文件本地链接、题解配对、课程覆盖、示例语法和生产站内链接。
+- `.github/workflows/quality.yml`：PR 与推送质量检查；内部设计与实施范围记录于 `docs/superpowers/`，不进入课程集合。
+
+### 📝 修改内容
+- 搜索覆盖全部正文，支持多关键词、标题排序、命中片段、键盘选择、焦点恢复及失败重试。
+- 移动端菜单改用原生模态对话框，补齐键盘操作；阅读目录随滚动高亮，复制按钮支持触屏与键盘，减少动画偏好全局生效。
+- KaTeX 样式随站点打包，避免公式样式依赖远端 CDN；Mermaid 仅在有图表的页面按需加载。
+- 67 篇正文新增配套练习入口；修复深度学习嵌套章节21处跨章断链；`exams/README.md` 完整索引9章94套试卷，`SUMMARY.md` 增加练习与示例入口。
+- 修复决策树示例3处字符串引号语法错误；README 的 MIT 说明改链正式许可页面，消除缺失文件链接。
+- `web/README.md`、根 README、部署工作流与忽略规则同步更新；部署前验证逻辑、内容及生成链接。
+
+### 🗑️ 删除内容
+- 从 Git 索引移除误跟踪的 `web/node_modules/`、`web/dist/`、`web/.astro/` 生成文件，本地文件保留，由依赖安装与构建重建。
+- 未删除课程或试卷内容。
+
+### ✅ 验证结果
+- 36 项网站逻辑测试、18 项 Python 检查器测试通过；源内容检查通过。
+- 生产构建267页、13,376条站内链接全部有效。
+- 浏览器验证桌面与390px手机布局、全文搜索键盘操作及网络失败重试、阅读位置恢复、已学标记、题解切换与移动菜单焦点恢复。
+
+---
+
+## v0.5.1 — 2026-10-03
 
 ### 🎯 本次主题：前端设计优化 + GitHub Pages 自动部署
 
@@ -223,6 +254,9 @@ AlexNet、VGGNet、GoogLeNet、ResNet、Transformer(2017)、BERT、GPT系列、�
 - [x] 第九章 · 学习资源：6 套节末 + 章节卷 + 挑战卷 + 压力面
 
 ### 其他
+- [x] 站内全文搜索、阅读进度与继续学习入口
+- [x] 94 套试卷站内阅读与正文回链
+- [x] 自动内容、代码语法与生产链接检查
 - [x] 术语表（`glossary/`：英汉对照 + 术语索引）
 - [x] 代码示例（`examples/`：4 个 Python 示例 + README）
 - [x] 前端站点（`web/`：Astro + Tailwind，78 页面，含搜索/深色模式/TOC）
@@ -244,4 +278,4 @@ AlexNet、VGGNet、GoogLeNet、ResNet、Transformer(2017)、BERT、GPT系列、�
 
 ---
 
-*最后更新：2026-10-03*
+*最后更新：2026-10-15*

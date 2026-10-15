@@ -64,3 +64,8 @@
 
 - [上一篇：医疗健康](../08-applications/06-healthcare.md)
 - [下一篇：在线课程](02-courses.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/09-resources/01-books-题目.md)
+- [节末小测：答案解析](../../exams/09-resources/01-books-答案解析.md)

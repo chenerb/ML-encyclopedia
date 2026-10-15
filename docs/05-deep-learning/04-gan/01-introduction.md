@@ -143,7 +143,7 @@ min_G max_D  E[log D(x)] + E[log(1 − D(G(z)))]
 **进一步学习方向：**
 - [生成器与判别器](02-generator-discriminator.md)：两个网络的内部细节
 - [GAN应用场景](03-applications.md)：GAN 能做什么
-- [扩散模型](../06-milestone-models/08-diffusion-models.md)：生成式 AI 的新王
+- [扩散模型](../../06-milestone-models/08-diffusion-models.md)：生成式 AI 的新王
 
 ---
 
@@ -156,3 +156,8 @@ min_G max_D  E[log D(x)] + E[log(1 − D(G(z)))]
 
 - [上一篇：Transformer应用](../03-transformer/04-applications.md)
 - [下一篇：生成器与判别器](02-generator-discriminator.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/04-gan-01-introduction-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/04-gan-01-introduction-答案解析.md)

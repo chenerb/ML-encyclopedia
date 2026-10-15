@@ -124,3 +124,8 @@
 
 - [上一篇：特征工程](02-feature-engineering.md)
 - [下一篇：超参数调优](04-hyperparameter-tuning.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/07-practical-guide/03-model-selection-题目.md)
+- [节末小测：答案解析](../../exams/07-practical-guide/03-model-selection-答案解析.md)

@@ -200,3 +200,8 @@
 
 - [上一篇：多层感知机](02-mlp.md)
 - [下一篇：梯度下降](04-gradient-descent.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/04-neural-networks/03-backpropagation-题目.md)
+- [节末小测：答案解析](../../exams/04-neural-networks/03-backpropagation-答案解析.md)

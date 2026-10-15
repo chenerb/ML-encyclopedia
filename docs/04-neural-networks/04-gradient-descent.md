@@ -204,3 +204,8 @@
 
 - [上一篇：反向传播算法](03-backpropagation.md)
 - [下一篇：激活函数](05-activation-functions.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/04-neural-networks/04-gradient-descent-题目.md)
+- [节末小测：答案解析](../../exams/04-neural-networks/04-gradient-descent-答案解析.md)

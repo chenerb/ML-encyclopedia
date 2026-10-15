@@ -11,13 +11,14 @@ const items = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
 
 {
   items.length > 0 && (
-    <nav class="text-sm">
+    <nav class="text-sm" aria-label="本页目录">
       <p class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">本页目录</p>
       <ul class="space-y-1 border-l border-gray-200 dark:border-white/[0.08]">
         {items.map((h) => (
           <li>
             <a
               href={`#${h.slug}`}
+              data-toc-link={h.slug}
               class={`block py-1 pr-2 text-[13px] leading-snug transition-colors ${
                 h.depth === 2
                   ? 'pl-3 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400'
@@ -32,3 +33,22 @@ const items = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
     </nav>
   )
 }
+
+<script>
+  const headings = Array.from(document.querySelectorAll<HTMLElement>('[data-reading-article] h2[id], [data-reading-article] h3[id], .prose h2[id], .prose h3[id]'));
+  let scheduled = false;
+  function highlightHeading() {
+    scheduled = false;
+    const current = headings.filter(heading => heading.getBoundingClientRect().top <= 140).at(-1) ?? headings[0];
+    if (!current) return;
+    document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]').forEach(link => {
+      const active = link.dataset.tocLink === current.id;
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('scroll', () => {
+    if (!scheduled) { scheduled = true; requestAnimationFrame(highlightHeading); }
+  }, { passive: true });
+  highlightHeading();
+</script>

@@ -192,3 +192,8 @@ CEO 说："单看任何一个原始数据，都说明不了什么。**但经过�
 
 - [上一篇：感知机](01-perceptron.md)
 - [下一篇：反向传播算法](03-backpropagation.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/04-neural-networks/02-mlp-题目.md)
+- [节末小测：答案解析](../../exams/04-neural-networks/02-mlp-答案解析.md)

@@ -132,3 +132,8 @@
 
 - [上一篇：计算机视觉](01-computer-vision.md)
 - [下一篇：语音识别](03-speech-recognition.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/08-applications/02-natural-language-processing-题目.md)
+- [节末小测：答案解析](../../exams/08-applications/02-natural-language-processing-答案解析.md)

@@ -218,3 +218,8 @@ w₁x₁ + w₂x₂ + b = 0   （一条直线）
 
 - [上一篇：模型评估方法](../03-traditional-ml/09-model-evaluation.md)
 - [下一篇：多层感知机](02-mlp.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/04-neural-networks/01-perceptron-题目.md)
+- [节末小测：答案解析](../../exams/04-neural-networks/01-perceptron-答案解析.md)

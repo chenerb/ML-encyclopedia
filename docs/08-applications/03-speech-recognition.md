@@ -112,3 +112,8 @@
 
 - [上一篇：自然语言处理](02-natural-language-processing.md)
 - [下一篇：推荐系统](04-recommendation-systems.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/08-applications/03-speech-recognition-题目.md)
+- [节末小测：答案解析](../../exams/08-applications/03-speech-recognition-答案解析.md)

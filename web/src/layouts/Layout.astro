@@ -4,6 +4,7 @@ import '@fontsource/inter/500.css';
 import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 import '@fontsource/jetbrains-mono';
+import 'katex/dist/katex.min.css';
 import '../styles/global.css';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import Search from '../components/Search.astro';
@@ -73,8 +74,6 @@ const mobileNavLinkClass = (href: string) =>
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.45/dist/katex.min.css" crossorigin="anonymous" />
-
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
@@ -89,14 +88,10 @@ const mobileNavLinkClass = (href: string) =>
     <meta name="theme-color" content="#6366f1" />
 
     <script is:inline>
-      if (
-        localStorage.getItem('color-theme') === 'dark' ||
-        (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-      ) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
+      let theme;
+      try { theme = localStorage.getItem('color-theme'); } catch {}
+      document.documentElement.classList.toggle('dark', theme === 'dark' ||
+        (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches));
     </script>
   </head>
 
@@ -165,7 +160,7 @@ const mobileNavLinkClass = (href: string) =>
             </a>
 
             <button
-              onclick="document.dispatchEvent(new Event('open-search'))"
+              onclick="document.dispatchEvent(new CustomEvent('open-search', { detail: { trigger: this } }))"
               class="p-2 rounded-lg hover:bg-gray-100/70 dark:hover:bg-white/[0.06] transition-colors duration-200 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer"
               aria-label="搜索"
               title="搜索 (Cmd/Ctrl + K)"
@@ -181,6 +176,8 @@ const mobileNavLinkClass = (href: string) =>
               id="mobile-menu-btn"
               class="lg:hidden p-2 rounded-lg hover:bg-gray-100/70 dark:hover:bg-white/[0.06] transition-colors duration-200 cursor-pointer"
               aria-label="菜单"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
             >
               <svg id="menu-icon" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                 <path class="menu-open" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -191,9 +188,7 @@ const mobileNavLinkClass = (href: string) =>
         </nav>
       </div>
 
-      <div id="mobile-menu-overlay" class="lg:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300"></div>
-
-      <div id="mobile-menu" class="lg:hidden fixed top-0 right-0 h-full w-72 max-w-[80vw] bg-white/95 dark:bg-[#141414]/95 backdrop-blur-xl shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-out">
+      <dialog id="mobile-menu" aria-label="网站导航" class="fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-none w-72 max-w-[85vw] bg-white dark:bg-[#141414] shadow-2xl border-0 p-0 text-gray-900 dark:text-gray-100">
         <div class="p-6 sidebar-scroll overflow-y-auto h-full">
           <div class="flex justify-between items-center mb-4">
             <span class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">导航</span>
@@ -207,6 +202,7 @@ const mobileNavLinkClass = (href: string) =>
           <a href={getPath('/')} class="mobile-nav-link flex items-center gap-3 py-3 px-4 rounded-xl text-[13px] font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-all cursor-pointer mb-2">
             首页
           </a>
+          <a href={getPath('/exams/')} class="mobile-nav-link flex items-center gap-3 py-3 px-4 rounded-xl text-[13px] font-semibold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 mb-2">配套测验</a>
 
           <p class="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-4 mb-2">章节</p>
           <nav class="flex flex-col gap-0.5">
@@ -224,7 +220,7 @@ const mobileNavLinkClass = (href: string) =>
             </a>
           </div>
         </div>
-      </div>
+      </dialog>
     </header>
 
     <div id="reading-progress" class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-[#6366f1] via-[#8b5cf6] to-[#d946ef] z-[60] transition-all duration-150 pointer-events-none" style="width: 0%"></div>
@@ -244,7 +240,7 @@ const mobileNavLinkClass = (href: string) =>
           <span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
           <a href="https://github.com/chenerb/ML-encyclopedia/blob/main/SUMMARY.md" target="_blank" rel="noopener noreferrer" class="text-gray-400 dark:text-gray-500 hover:text-indigo-500 transition-colors text-xs cursor-pointer">完整目录</a>
           <span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
-          <a href="https://github.com/chenerb/ML-encyclopedia/tree/main/exams" target="_blank" rel="noopener noreferrer" class="text-gray-400 dark:text-gray-500 hover:text-indigo-500 transition-colors text-xs cursor-pointer">测试卷专区</a>
+          <a href={getPath('/exams/')} class="text-gray-400 dark:text-gray-500 hover:text-indigo-500 transition-colors text-xs cursor-pointer">测试卷专区</a>
           <span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
           <a href="https://github.com/chenerb/ML-encyclopedia/tree/main/glossary" target="_blank" rel="noopener noreferrer" class="text-gray-400 dark:text-gray-500 hover:text-indigo-500 transition-colors text-xs cursor-pointer">术语表</a>
           <span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
@@ -285,26 +281,24 @@ const mobileNavLinkClass = (href: string) =>
         }
       });
 
-      backToTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      backToTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }));
 
       const mobileMenuBtn = document.getElementById('mobile-menu-btn');
       const mobileMenuClose = document.getElementById('mobile-menu-close');
-      const mobileMenu = document.getElementById('mobile-menu');
-      const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+      const mobileMenu = document.getElementById('mobile-menu') as HTMLDialogElement;
       const menuIcon = document.getElementById('menu-icon');
 
       function openMenu() {
-        mobileMenu?.classList.remove('translate-x-full');
-        mobileMenuOverlay?.classList.remove('opacity-0', 'pointer-events-none');
-        mobileMenuOverlay?.classList.add('opacity-100', 'pointer-events-auto');
+        if (mobileMenu.open) return;
+        mobileMenu.showModal();
+        mobileMenuBtn?.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
         menuIcon?.querySelector('.menu-open')?.classList.add('hidden');
         menuIcon?.querySelector('.menu-close')?.classList.remove('hidden');
       }
       function closeMenu() {
-        mobileMenu?.classList.add('translate-x-full');
-        mobileMenuOverlay?.classList.remove('opacity-100', 'pointer-events-auto');
-        mobileMenuOverlay?.classList.add('opacity-0', 'pointer-events-none');
+        if (mobileMenu.open) mobileMenu.close();
+        mobileMenuBtn?.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
         menuIcon?.querySelector('.menu-open')?.classList.remove('hidden');
         menuIcon?.querySelector('.menu-close')?.classList.add('hidden');
@@ -312,30 +306,45 @@ const mobileNavLinkClass = (href: string) =>
 
       mobileMenuBtn?.addEventListener('click', openMenu);
       mobileMenuClose?.addEventListener('click', closeMenu);
-      mobileMenuOverlay?.addEventListener('click', closeMenu);
+      mobileMenu.addEventListener('close', closeMenu);
+      mobileMenu.addEventListener('click', (event) => {
+        if (event.target !== mobileMenu) return;
+        const rect = mobileMenu.getBoundingClientRect();
+        if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeMenu();
+      });
       document.querySelectorAll('.mobile-nav-link').forEach((link) => link.addEventListener('click', closeMenu));
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+      window.addEventListener('resize', () => { if (window.innerWidth >= 1024 && mobileMenu.open) closeMenu(); });
     </script>
 
     <Search />
     <CopyButton />
 
     <script type="module">
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-
-      function initMermaid() {
-        const isDark = document.documentElement.classList.contains('dark');
-        mermaid.initialize({ startOnLoad: false, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+      async function initMermaid() {
         const selectors = 'pre[data-language="mermaid"], pre > code.language-mermaid';
-        document.querySelectorAll(selectors).forEach((el) => {
+        const diagrams = document.querySelectorAll(selectors);
+        if (!diagrams.length) return;
+        let mermaid;
+        try {
+          ({ default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'));
+        } catch {
+          // Keep the original diagram source readable when the CDN is unavailable.
+          return;
+        }
+        const isDark = document.documentElement.classList.contains('dark');
+        mermaid.initialize({ startOnLoad: false, theme: isDark ? 'dark' : 'default', securityLevel: 'strict' });
+        const originals = [];
+        diagrams.forEach((el) => {
           const pre = el.tagName === 'PRE' ? el : el.parentElement;
           const code = pre.querySelector('code') || pre;
           const div = document.createElement('div');
           div.className = 'mermaid';
           div.textContent = code.textContent;
+          originals.push({ pre, div });
           pre.replaceWith(div);
         });
-        mermaid.run();
+        try { await mermaid.run(); }
+        catch { originals.forEach(({ pre, div }) => div.replaceWith(pre)); }
       }
       initMermaid();
       document.addEventListener('astro:after-swap', initMermaid);

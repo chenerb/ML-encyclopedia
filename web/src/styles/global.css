@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+[hidden] { display: none !important; }
+:focus-visible { outline: 3px solid #818cf8; outline-offset: 4px; }
+[data-toc-link][aria-current="location"] { color: #4f46e5; font-weight: 600; border-left: 2px solid #6366f1; margin-left: -1px; background: #6366f108; }
+.dark [data-toc-link][aria-current="location"] { color: #a5b4fc; }
+.reading-focus #course-sidebar, .reading-focus #article-toc { display: none; }
+.reading-focus main > div > .flex { justify-content: center; }
+.reading-focus main article { max-width: 48rem; }
+#mobile-menu::backdrop { background: #0006; backdrop-filter: blur(3px); }
+#mobile-menu[open] { animation: drawer-enter 180ms ease-out; }
+@keyframes drawer-enter { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
 @layer utilities {
   .scrollbar-hide {
     scrollbar-width: none;
@@ -119,7 +133,7 @@ html.dark .astro-code span {
 
 .prose pre.astro-code > code {
   display: block;
-  padding: 12px 1rem 1.25rem 0;
+  padding: 14px 1rem 1.25rem;
   overflow-x: auto;
   background: transparent !important;
   font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
@@ -142,7 +156,6 @@ html.dark .astro-code span {
 .prose pre.astro-code code {
   color: inherit;
   background: transparent;
-  padding: 0;
   border-radius: 0;
   font-weight: normal;
   font-size: inherit;
@@ -178,6 +191,8 @@ html.dark .astro-code span {
 .prose pre.astro-code:hover .copy-btn {
   opacity: 1;
 }
+.prose pre.astro-code:focus-within .copy-btn { opacity: 1; }
+@media (hover: none) { .prose pre.astro-code .copy-btn { opacity: 1; min-height: 36px; } .prose pre.astro-code::after { display: none; } }
 .prose pre.astro-code:hover::after {
   opacity: 0;
 }
@@ -211,3 +226,5 @@ html.dark .astro-code span {
 .prose h4 {
   scroll-margin-top: 6rem;
 }
+.prose :is(h1, h2, h3, h4) > a { color: inherit; text-decoration: none; }
+.prose :is(h1, h2, h3, h4) > a:hover { text-decoration: underline; text-decoration-color: #818cf8; text-underline-offset: .2em; }

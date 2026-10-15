@@ -85,3 +85,8 @@
 
 - [上一篇：常用数据集](04-datasets.md)
 - [下一篇：社区和论坛](06-communities.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/09-resources/05-tools-frameworks-题目.md)
+- [节末小测：答案解析](../../exams/09-resources/05-tools-frameworks-答案解析.md)

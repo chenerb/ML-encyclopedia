@@ -136,7 +136,7 @@
 
 **进一步学习方向：**
 - [变分自编码器](02-variational-autoencoders.md)：让自编码器"会生成"
-- [数据预处理](../07-practical-guide/01-data-preprocessing.md)：降维的实际应用
+- [数据预处理](../../07-practical-guide/01-data-preprocessing.md)：降维的实际应用
 - [GAN简介](../04-gan/01-introduction.md)：另一种生成模型
 
 ---
@@ -150,3 +150,8 @@
 
 - [上一篇：GAN应用场景](../04-gan/03-applications.md)
 - [下一篇：变分自编码器](02-variational-autoencoders.md)
+
+## 配套练习
+
+- [节末小测：题目](../../../exams/05-deep-learning/05-autoencoders-01-introduction-题目.md)
+- [节末小测：答案解析](../../../exams/05-deep-learning/05-autoencoders-01-introduction-答案解析.md)

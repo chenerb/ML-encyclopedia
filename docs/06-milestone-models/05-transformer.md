@@ -115,3 +115,8 @@ RNN 串行处理序列（慢 + 长距离衰减）。Transformer 让**所有词�
 
 - [上一篇：ResNet](04-resnet.md)
 - [下一篇：BERT](06-bert.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/06-milestone-models/05-transformer-题目.md)
+- [节末小测：答案解析](../../exams/06-milestone-models/05-transformer-答案解析.md)

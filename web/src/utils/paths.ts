@@ -78,7 +78,7 @@ export function buildArticleIndex(
   entries: CollectionEntry<'docs'>[],
 ): ArticleMeta[] {
   return entries
-    .filter((e) => !e.id.endsWith('/index') && !e.id.includes('SUMMARY'))
+    .filter((e) => /^\d{2}-[^/]+\//.test(e.id) && !e.id.endsWith('/index') && !e.id.includes('SUMMARY'))
     .map((entry) => {
       const { chapter, group, slug } = parseArticleId(entry.id);
       const body = entry.body ?? '';

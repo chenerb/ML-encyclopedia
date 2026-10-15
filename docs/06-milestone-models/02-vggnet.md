@@ -123,3 +123,8 @@ VGG 预训练（ImageNet）→ 切掉分类头 → 接新任务的头 → 微调
 
 - [上一篇：AlexNet](01-alexnet.md)
 - [下一篇：GoogLeNet](03-googlenet.md)
+
+## 配套练习
+
+- [节末小测：题目](../../exams/06-milestone-models/02-vggnet-题目.md)
+- [节末小测：答案解析](../../exams/06-milestone-models/02-vggnet-答案解析.md)

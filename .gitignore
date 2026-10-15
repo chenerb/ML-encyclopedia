@@ -10,3 +10,8 @@ desktop.ini
 *.swp
 *.swo
 *~
+
+# Python 检查缓存与虚拟环境
+__pycache__/
+*.py[cod]
+.venv/
